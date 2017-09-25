@@ -6,3 +6,4 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
   __FILE__,
   'wps_framework'
 );
+
