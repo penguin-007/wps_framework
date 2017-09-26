@@ -1,0 +1,379 @@
+<?php
+/**
+ * MAIL Module.
+ *
+ * @package   WPS_Framework
+ * @version   1.0.0
+ * @author    Alexander Laznevoy 
+ * @copyright Copyright (c) 2017, Alexander Laznevoy
+ * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+*/
+
+
+new WPS_OptionPage(
+  array(
+    /* submenu_setting */
+    'submenu_setting' => array(
+      'submenupos' => "wps_framework",
+      'page_title' => 'MAIL Module',
+      'menu_title' => 'MAIL Module',
+      'capability' => 'administrator',
+      'menu_slug'  => 'wps_mail_module_settings',
+    ),
+    /* submenu_setting */
+    'fields'    => array(
+
+      array(
+        'field_type'  => 'input',
+        'field_name'  => 'theme_email',
+        'title'       => 'Основной e-mail для писем',
+        'description' => "Можно ввести несколько почтовых адресов через запятую"
+      ),
+
+      array(
+        'field_type'   => 'checkbox',
+        'field_name'   => 'mail_in_admin_panel',
+        'title'        => 'Вывести почту в админ-панель?',
+      ),
+
+    )
+  )
+);
+
+
+/* 
+<!-- hidden input -->
+<input type="hidden" name="form_subject"  value="Тема">
+<input type="hidden" name="form_title"    value="Заголовок">
+<input type="hidden" name="form_redirect" value="spasibo-za-obrashhenie/">
+<input type="hidden" name="email_path"    value="theme_email_2">
+<input type="hidden" name="form_template" value="standart">
+<!-- hidden input -->
+*/
+
+
+class WPS_Mail {
+
+  // main options module
+  private $options; 
+
+  function __construct() {
+    $this->options = get_option('wps_mail_module_settings');
+    // name form
+    add_action( 'wp_ajax_nopriv_wps_form_send', array( $this, 'wps_form_send') );
+    add_action( 'wp_ajax_wps_form_send', array( $this, 'wps_form_send') );
+    // init_script
+    add_action( 'wp_enqueue_scripts', array($this,'init_script') );
+    // выводить интерфейс почты в админку?
+    if ( $this->options['mail_in_admin_panel'] ){
+      $this->wps_init_mail_type();
+    }
+  }
+  
+  // init_script
+  public function init_script(){
+    wp_enqueue_script  ( 'wps_mail_action', trailingslashit( WPS_MODULES_URI ) . 'wps_mail/wps_mail_action.min.js', array('jquery'), WPS_VERSION, true );
+    wp_localize_script ( 'wps_mail_action', 'theme_ajax',
+      array(
+        'url' => admin_url('admin-ajax.php')
+      )
+    );
+  } 
+
+
+  ## wps_form_send
+  public function wps_form_send(){
+    // email
+    $email_path = $_POST["email_path"] ? htmlspecialchars( $_POST["email_path"] ) : NULL;
+    if ( $this->get_email( $email_path ) ){
+      $to = $this->get_email( $email_path );
+    } else {
+      $result['g_error'] = "Не указана почта или указана неверно!";
+      exit( json_encode($result) );
+    }
+    /* base */
+    $sender       = 'wordpress@' . wps__get_sitename();
+    $project_name = wps__get_sitename()." ";
+    /* other */
+    $subject       = $_POST["form_subject"] ? htmlspecialchars( $_POST["form_subject"] ) : "No subject";
+    $form_redirect = htmlspecialchars( $_POST["form_redirect"] );
+    /* msg */
+    $message = $this->render_message( $_POST );
+    // save data 
+    $this->wps_save_mail( "wps_mail", $subject, $message );
+    /* send */
+    $result = $this->send_email(array(
+      "to"            => $to,
+      "from"          => $project_name,
+      "sender"        => $sender,
+      "subject"       => $subject,
+      "message"       => $message,
+      "attachment"    => $_FILES['file'],
+      "form_redirect" => $form_redirect,
+    ));
+    /* result */
+    exit ( $result );
+  }
+
+
+  // send_email
+  public function send_email( $args ){
+    // defaults settings
+    $to            = $args["to"];
+    $from          = $args["from"];
+    $sender        = $args["sender"];
+    $subject       = $args["subject"];
+    $message       = $args["message"];
+    $attachment    = $args["attachment"];
+    $form_redirect = $args["form_redirect"];
+    // генерируем разделитель
+    $end      = "\r\n";
+    $boundary = "--".md5(uniqid(time())); 
+    // разделитель указывается в заголовке в параметре boundary 
+    $headers  = "MIME-Version: 1.0;" . $end; 
+    $headers .= "Content-Type: multipart/mixed; boundary=\"$boundary\"" . $end; 
+    $headers .= "From: $from <$sender>" . $end; 
+    $headers .= "Reply-To: $sender" . $end; 
+    // subject in utf8
+    $subject  = "=?utf-8?B?".base64_encode($subject)."?=";
+    // message
+    $message_all  = "--$boundary" . $end; 
+    $message_all .= "Content-Type: text/html; charset=utf-8" . $end;
+    $message_all .= "Content-Transfer-Encoding: base64" . $end;    
+    $message_all .= $end;
+    $message_all .= chunk_split(base64_encode($message));
+    //if attachment
+    if( !empty($attachment['tmp_name']) ) {
+      $filename  = $attachment['name'];
+      $file      = $attachment['tmp_name'];
+      $file_size = filesize($file);
+      $handle    = fopen($file, "r");
+      $content   = fread($handle, $file_size);
+      fclose($handle);
+      $message_part  = $end . "--$boundary" . $end; 
+      $message_part .= "Content-Type: application/octet-stream; name=\"$filename\"" . $end;  
+      $message_part .= "Content-Transfer-Encoding: base64" . $end; 
+      $message_part .= "Content-Disposition: attachment; filename=\"$filename\"" . $end; 
+      $message_part .= $end;
+      $message_part .= chunk_split(base64_encode($content));
+      $message_part .= $end . "--$boundary--" . $end;
+      $message_all  .= $message_part;
+    }
+    // send
+    if( wp_mail( $to, $subject, $message_all, $headers ) ) {
+      $result['success'] = "mail success";
+      // form_redirect
+      if ( $form_redirect != '' ) {
+        $result['location'] = $form_redirect;
+      }
+    } else {
+      $result['g_error'] = "mail error";
+    }
+    return json_encode($result);
+  }
+
+
+  /* get_email */
+  private function get_email( $email_path ){
+    if ( $email_path != NULL ) {
+      $email = $this->options[$email_path];
+    } 
+    if( !$email ){
+      $email = $this->options['theme_email'];
+    }
+    if ( !$email ){
+      return false;
+    }
+    return $email;
+  }
+
+
+
+  /* render_message */
+  public function render_message( $post ){
+    if ( !is_array( $post ) ) exit();
+    // defaults
+    $path       = "template/";
+    $template   = "default";
+    $form_title = "";
+    // check 
+    if ( isset( $post["form_template"] ) && $post["form_template"] != "" ){
+    	$path     = CHILD_DIR."/wps_config/mail_template/";
+    	$template = htmlspecialchars( $post["form_template"] );
+    }
+    if ( isset( $post["form_title"] ) && $post["form_title"] != "" ){
+    	$form_title = htmlspecialchars( $post["form_title"] );
+    }
+    /* clear post */
+    unset(
+      $post['action'],
+      $post['form_subject'], 
+      $post['form_redirect'], 
+      $post['form_title'],
+      $post['email_path'],
+      $post['form_template']
+    );
+    /* msg */
+    ob_start();
+	    require( "{$path}{$template}.php" );
+	    $message .= ob_get_contents();
+    ob_end_clean();
+
+    return $message;
+  }
+
+
+  private function wps_init_mail_type(){
+
+    ################ Mail Type ###############
+    new WPS_CustomType(
+      array(
+        /* Create Files */
+        'create_archive_file' => false,
+        'create_single_file'  => false,
+
+        /* Post Type Register */
+        'register_post_type' => array(
+          'post_type' => 'wps_mail', // 1) custom-type name
+          // labels
+          'labels'    => array(
+            'name'          => 'Mail',
+            'singular_name' => 'Mail', 
+            'menu_name'     => 'Mail'
+          ),
+          // supports_label
+          'supports_label' => array(
+            'title',
+          ),
+          // rewrite
+          'rewrite' => array(
+            'slug'         => 'wps_mail', // 2) custom-type slug
+            'with_front'   => false,
+            'hierarchical' => true
+          ),
+          // general
+          'general' => array(
+            /* if need remove in query */
+            'query_var'           => false, 
+            'publicly_queryable'  => false,
+            'exclude_from_search' => true,
+            'taxonomies'          => array('wps_mail_tax'), // 3) 
+            'menu_icon'           => 'dashicons-email-alt', 
+          )
+        ),
+
+        ################ Mail Tax ###############
+        'register_taxonomy' => array(
+          // tax
+          array (
+            'taxonomy_name' => 'wps_mail_tax',         // 1) 
+            'setting' => array(
+              'label'              => 'Категория', // 2) 
+              'hierarchical'       => true,
+              'publicly_queryable' => false,
+              'public'             => false,
+              'query_var'          => false,
+              'show_admin_column'  => true, 
+              'show_ui'            => true 
+            )
+          ),
+          // tax
+        )
+
+      )
+    );
+
+    ################ Mail Meta Fields ###############
+    new WPS_MetaBox(
+      array(
+        'meta_box_name'   => 'Почта',                   
+        'post_types'      => array( 'wps_mail' ),   
+        'page_templates'  => array(  ),
+        'meta_box_groups' => array(
+          // GROUP FIELD
+          array(
+            'title'    => '',
+            'fields'   => array(
+              array(
+                'field_type'   => 'input',
+                'field_name'   => 'counter',
+                'title'        => '№ письма',
+                'type_input'   => 'number',
+              ),
+              array(
+                'field_type'  => 'wp_editor',
+                'field_name'  => 'post_data',
+                'title'       => 'Содержание письма',
+                'description' => '',
+              ),
+              array(
+                'field_type'   => 'checkbox',
+                'field_name'   => 'viewed',
+                'title'        => 'Просмотрено',
+              ),
+            )
+          ),
+          // GROUP FIELD
+        )
+      )
+    );
+
+    ################ Mail Post Columns ###############
+    new WPS_PostColumns(
+      array(
+        'post_type' => 'wps_mail',
+        'fields'    => array(
+          array(
+            'field_type'   => 'text',
+            'field_name'   => 'counter',
+            'columns_name' => '№ письма'
+          ),
+          array(
+            'field_type'   => 'checkbox',
+            'field_name'   => 'viewed',
+            'columns_name' => 'Просмотрено'
+          ),
+          array(
+            'field_type'   => 'row_color',
+            'field_name'   => 'viewed',
+            'columns_name' => 'Row Color',
+            'options'      => array(
+              "on" => "rgba(130, 218, 185, 0.1)",
+              ""   => "rgba(255, 90, 90, 0.05)",
+            )
+          ),
+        )
+      )
+    );
+
+  }
+
+
+  /* wps_save_mail */
+  public static function wps_save_mail( $post_type = "wps_mail", $subject, $mail_data ){
+
+    /* mail number */
+    $cur_count = get_option( "wps_mail_counter__{$subject}" );
+    $new_count = !$cur_count ? (int) 1 : ++$cur_count;
+    update_option(  "wps_mail_counter__{$subject}", $new_count );
+
+    /* set meil to admin */
+    $order_detail = array(
+      'post_title'   => $subject,
+      'post_type'    => $post_type,
+      'post_status'  => 'publish',
+      'meta_input'   => array(
+        'counter'   => $new_count,
+        'post_data' => $mail_data, 
+      )
+    );
+    $post_id = wp_insert_post( $order_detail );
+
+    wp_set_object_terms( $post_id, $subject, 'wps_mail_tax', false ); // false - перезаписать старые связи
+
+  }
+
+}
+
+new WPS_Mail();
