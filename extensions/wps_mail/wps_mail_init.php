@@ -11,48 +11,6 @@
 */
 
 
-new WPS_OptionPage(
-  array(
-    /* submenu_setting */
-    'submenu_setting' => array(
-      'submenupos' => "wps_framework",
-      'page_title' => 'MAIL Module',
-      'menu_title' => 'MAIL Module',
-      'capability' => 'administrator',
-      'menu_slug'  => 'wps_mail_module_settings',
-    ),
-    /* submenu_setting */
-    'fields'    => array(
-
-      array(
-        'field_type'  => 'input',
-        'field_name'  => 'theme_email',
-        'title'       => 'Основной e-mail для писем',
-        'description' => "Можно ввести несколько почтовых адресов через запятую"
-      ),
-
-      array(
-        'field_type'   => 'checkbox',
-        'field_name'   => 'mail_in_admin_panel',
-        'title'        => 'Вывести почту в админ-панель?',
-      ),
-
-    )
-  )
-);
-
-
-/* 
-<!-- hidden input -->
-<input type="hidden" name="form_subject"  value="Тема">
-<input type="hidden" name="form_title"    value="Заголовок">
-<input type="hidden" name="form_redirect" value="spasibo-za-obrashhenie/">
-<input type="hidden" name="email_path"    value="theme_email_2">
-<input type="hidden" name="form_template" value="standart">
-<!-- hidden input -->
-*/
-
-
 class WPS_Mail {
 
   // main options module
@@ -60,6 +18,9 @@ class WPS_Mail {
 
   function __construct() {
     $this->options = get_option('wps_mail_module_settings');
+
+    add_action( 'wp_loaded', array( $this, 'render_menu' ), 1 );
+
     // name form
     add_action( 'wp_ajax_nopriv_wps_form_send', array( $this, 'wps_form_send') );
     add_action( 'wp_ajax_wps_form_send', array( $this, 'wps_form_send') );
@@ -73,13 +34,45 @@ class WPS_Mail {
   
   // init_script
   public function init_script(){
-    wp_enqueue_script  ( 'wps_mail_action', trailingslashit( WPS_MODULES_URI ) . 'wps_mail/wps_mail_action.min.js', array('jquery'), WPS_VERSION, true );
+    wp_enqueue_script  ( 'wps_mail_action', trailingslashit( WPS_EXTENSIONS_URI ) . 'wps_mail/wps_mail_action.min.js', array('jquery'), WPS_VERSION, true );
     wp_localize_script ( 'wps_mail_action', 'theme_ajax',
       array(
         'url' => admin_url('admin-ajax.php')
       )
     );
   } 
+
+  function render_menu(){
+    new WPS_OptionPage(
+      array(
+        /* submenu_setting */
+        'submenu_setting' => array(
+          'submenupos' => "wps_framework",
+          'page_title' => 'MAIL Module',
+          'menu_title' => 'MAIL Module',
+          'capability' => 'administrator',
+          'menu_slug'  => 'wps_mail_module_settings',
+        ),
+        /* submenu_setting */
+        'fields'    => array(
+
+          array(
+            'field_type'  => 'input',
+            'field_name'  => 'theme_email',
+            'title'       => 'Основной e-mail для писем',
+            'description' => "Можно ввести несколько почтовых адресов через запятую"
+          ),
+
+          array(
+            'field_type'   => 'checkbox',
+            'field_name'   => 'mail_in_admin_panel',
+            'title'        => 'Вывести почту в админ-панель?',
+          ),
+
+        )
+      )
+    );
+  }
 
 
   ## wps_form_send

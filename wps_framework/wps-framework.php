@@ -37,9 +37,6 @@ class WPS_Framework {
     add_action( 'after_setup_theme', array( $this, 'wps_builders' ) );
 
     add_action( 'after_setup_theme', array( $this, 'wps_init' ) );
-
-    // Модули подгружать в последнюю очередь 
-    add_action( 'after_setup_theme', array( $this, 'wps_modules' ) );
   }
 
 
@@ -79,10 +76,10 @@ class WPS_Framework {
     define( 'WPS_BUILDERS', trailingslashit( WPS_DIR ) . 'builders' );
 
     /** Sets the path to the modules framework directory. */
-    define( 'WPS_MODULES', trailingslashit( WPS_DIR ) . 'modules' );
+    define( 'WPS_EXTENSIONS', trailingslashit( PARENT_DIR ) . 'extensions' );
 
     /** Sets the path to the modules url framework directory. */
-    define( 'WPS_MODULES_URI', trailingslashit( WPS_URI ) . 'modules' );
+    define( 'WPS_EXTENSIONS_URI', trailingslashit( PARENT_URI ) . 'extensions' );
 
     /** Sets the path to the core framework admin directory. */
     define( 'WPS_ADMIN_DIR', trailingslashit( WPS_DIR ) . 'admin' );
@@ -115,9 +112,6 @@ class WPS_Framework {
 
     // Load the theme functions for console.
     require_once( trailingslashit( WPS_CORE ) . 'console.php' );
-
-    // Load the theme filters.
-    require_once( trailingslashit( WPS_CORE ) . 'filters.php' );
   }
 
 
@@ -165,18 +159,9 @@ class WPS_Framework {
   }
 
 
-  /**
-   * Defines the theme modules.
-   * @since 1.0.0
-   */
-  function wps_modules(){
-    require_once( trailingslashit( WPS_MODULES ) . 'wps-modules.php'  );
-  }
-
-
   function wps_init(){
     // File for use functionality the framework 
-    require_once( trailingslashit( WPS_DIR ) . 'init.php' );
+    require_once( trailingslashit( PARENT_DIR ) . 'init/init.php' );
   }
 
 }

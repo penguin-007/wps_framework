@@ -11,43 +11,6 @@
  *
  */
 
-
-/* HOU USE
-new WPS_OptionPage(
-  array(
-    // menu_setting
-    'menu_setting' => array(
-      'page_title' => 'Пример страницы',
-      'menu_title' => 'Пример страницы',
-      'capability' => 'administrator',
-      'menu_slug'  => 'wps_theme_settings_test',
-    ),
-    // menu_setting
-    'fields'    => array(
-      // FIELDS
-    )
-  )
-);
-
-new WPS_OptionPage(
-  array(
-    // submenu_setting 
-    'submenu_setting' => array(
-      'submenupos' => "wps_theme_settings_test",
-      //'submenupos' => "edit.php?post_type=custom_post2",
-      'page_title' => 'Пример подстраницы',
-      'menu_title' => 'Пример подстраницы',
-      'capability' => 'administrator',
-      'menu_slug'  => 'wps_theme_settings_sub_test',
-    ),
-    // submenu_setting 
-    'fields'    => array(
-      // FIELDS
-    )
-  )
-);
-
-*/
  
 class WPS_OptionPage {
 
@@ -126,8 +89,6 @@ class WPS_OptionPage {
     if ( !empty( $more_fiels_after ) && is_array( $more_fiels_after ) ){
       $fields = array_merge($fields, $more_fiels_after);
     }
-    
-
   ?>
 
   <div class="wps_option_wrapper">
@@ -138,13 +99,13 @@ class WPS_OptionPage {
         foreach ($fields as $value) {
           $field_type  = $value['field_type'];
           $title       = $value['title'] ? $value['title'] : '';
-          $description = $value['description'] ? $value['description'] : '';
+          $description = isset($value['description']) ? $value['description'] : '';
 
           // field setting
           $field_name          = $value['field_name'];
           $value['save_key']   = $slug;
           $value['array_path'] = $slug."[{$field_name}]";
-          $value['value']      = $data[$field_name];
+          $value['value']      = isset($data) && is_array($data) ? $data[$field_name] : ""; 
 
           echo '<div class="wps_option_row">';
           echo "<p>$title</p>";

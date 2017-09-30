@@ -71,6 +71,8 @@ add_action('widgets_init', 'remove_recent_comments_style');
 add_action( 'wp_head', 'wps_meta_charset', 0  );
 add_action( 'wp_head', 'wps_meta_viewport', 1 );
 add_action( 'wp_head', 'wps_meta_base', 2 );
+// Add favicon tags to page
+add_action( 'wp_head', 'wps__favicon_tags' );
 
 
 /**

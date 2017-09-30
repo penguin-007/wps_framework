@@ -61,6 +61,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.wps_option_wrap form {
+  margin: 0;
+}
 .wps_option_row {
   padding: 20px 10px;
 }

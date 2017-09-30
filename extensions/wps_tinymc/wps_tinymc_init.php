@@ -7,7 +7,7 @@ function wptuts_buttons() {
 	add_filter( 'mce_buttons', 'wptuts_register_buttons' );
 }
 function wptuts_add_buttons( $plugin_array ) {
-	$plugin_array['wptuts'] = trailingslashit( WPS_MODULES_URI ) . 'wps_tinymc/tinymc.js';
+	$plugin_array['wptuts'] = trailingslashit( WPS_EXTENSIONS_URI ) . 'wps_tinymc/tinymc.js';
 	return $plugin_array;
 }
 function wptuts_register_buttons( $buttons ) {
@@ -17,7 +17,7 @@ function wptuts_register_buttons( $buttons ) {
 }
 add_action( 'current_screen', 'my_theme_add_editor_styles' );
 function my_theme_add_editor_styles() {
-	add_editor_style( trailingslashit( WPS_MODULES_URI ) . '/wps_tinymc/tinymc-styles.css' );
+	add_editor_style( trailingslashit( WPS_EXTENSIONS_URI ) . 'wps_tinymc/tinymc-styles.css' );
 }
 
 /*

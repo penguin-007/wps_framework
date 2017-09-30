@@ -110,6 +110,7 @@ class WPS_SEO {
     // добавим поля к таскономиям
     // Мета теги Title, Description и область для СЕО текста
     // Скроем поле "описание", которое могут использовать другие СЕО плагины
+    if ( isset( $this->config['select_taxonomies'] ) && is_array( $this->config['select_taxonomies'] ) ) :
     new WPS_TermFields( 
       array(
         'taxonomy'  => $this->config['select_taxonomies'],
@@ -140,57 +141,57 @@ class WPS_SEO {
         )
       )
     );
-
+    endif;
   }
 
 
 
   function add_field_post_archives(){
     // Добавим подменю для страниц архивов
-    if ( is_array( $this->config['select_post_archives'] ) ){
-      foreach ( $this->config['select_post_archives'] as  $value) {
-        
-        new WPS_OptionPage(
-          array(
-            /* submenu_setting */
-            'submenu_setting' => array(
-              'submenupos' => "edit.php?post_type={$value}",
-              'page_title' => 'SEO Archive',
-              'menu_title' => 'SEO',
-              'capability' => 'administrator',
-              'menu_slug'  => "wps_seo__type_{$value}",
+    if ( isset( $this->config['select_post_archives'] ) && is_array( $this->config['select_post_archives'] ) ) :
+    foreach ( $this->config['select_post_archives'] as  $value) {
+      new WPS_OptionPage(
+        array(
+          /* submenu_setting */
+          'submenu_setting' => array(
+            'submenupos' => "edit.php?post_type={$value}",
+            'page_title' => 'SEO Archive',
+            'menu_title' => 'SEO',
+            'capability' => 'administrator',
+            'menu_slug'  => "wps_seo__type_{$value}",
+          ),
+          /* submenu_setting */
+          'fields'    => array(
+
+            array(
+              'field_type'  => 'input',
+              'field_name'  => 'wps_seo__title',
+              'title'       => 'Meta Title',
             ),
-            /* submenu_setting */
-            'fields'    => array(
+            array(
+              'field_type'  => 'textarea',
+              'field_name'  => 'wps_seo__description',
+              'title'       => 'Meta Description',
+            ),
+            array(
+              'field_type'  => 'wp_editor',
+              'field_name'  => 'wps_seo__text',
+              'title'       => 'SEO Text',
+              'options' => array(
+                'media_buttons' => 1,
+              )
+            ),
 
-              array(
-                'field_type'  => 'input',
-                'field_name'  => 'wps_seo__title',
-                'title'       => 'Meta Title',
-              ),
-              array(
-                'field_type'  => 'textarea',
-                'field_name'  => 'wps_seo__description',
-                'title'       => 'Meta Description',
-              ),
-              array(
-                'field_type'  => 'wp_editor',
-                'field_name'  => 'wps_seo__text',
-                'title'       => 'SEO Text',
-                'options' => array(
-                  'media_buttons' => 1,
-                )
-              ),
-
-            )
           )
-        );
-      }
+        )
+      );
     }
+    endif;
   }
 
   function add_field_post_types(){
     // поля для типов записей
+    if ( isset( $this->config['select_post_types'] ) && is_array( $this->config['select_post_types'] ) ) :
     new WPS_MetaBox(
       array(
         'meta_box_name'   => 'WPS SEO',                  
@@ -225,6 +226,7 @@ class WPS_SEO {
         )
       )
     );
+    endif;
   }
 
 
@@ -316,3 +318,5 @@ class WPS_SEO {
   }
 
 }
+
+new WPS_SEO();
