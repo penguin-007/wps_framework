@@ -6,5 +6,5 @@
 * Fixed bugs
 * Добавлены опции темы "wps_framework_options" (Документация->"HOME")
 
-<b>0.01.00</b>
-* Start
+<b>0.1.0</b>
+* Start beta version
