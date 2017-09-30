@@ -1,5 +1,8 @@
-WPS Framework parent theme based on started theme for WordPress.
+WPS Framework
 ==================================
+
+WPS Framework - is a theme configuration framework for WordPress CMS.
+Parent theme based on started theme for WordPress.
 
 You can learn more about WPS Framework features from the [official documentation](https://github.com/penguin-007/wps_framework/wiki).
 
