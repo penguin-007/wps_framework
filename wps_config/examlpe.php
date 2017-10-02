@@ -93,7 +93,7 @@ new WPS_MetaBox(
   array(
     'meta_box_name'   => 'Заголовок (обязательно)',                   
     'post_types'      => array( 'example_post_type' ),   
-    'page_templates'  => array( 'wps_config/wps_example-page.php' ),
+    'page_templates'  => array( 'templates/example-page.php' ),
     'meta_box_groups' => array(
       // GROUP FIELD
       array(

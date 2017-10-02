@@ -91,6 +91,24 @@
 </td>
 </tr>
 
+<tr>
+<td>UI Textarea</td>
+<td>
+  <?php pre_print_r( get_post_meta( $post->ID, 'textarea', true ) ); ?>
+</td>
+</tr>
+
+
+<tr>
+<td>UI SimpleGallery</td>
+<td>
+  <?php 
+    $gallery = UI_SimpleGallery::wps__get_simple_gallery( 'simple_gallery' );
+    pre_print_r( $gallery );
+  ?>
+</td>
+</tr>
+
 
 <tr>
 <td>UI Repeater</td>
@@ -102,12 +120,6 @@
 </td>
 </tr>
 
-<tr>
-<td>UI Textarea</td>
-<td>
-  <?php pre_print_r( get_post_meta( $post->ID, 'textarea', true ) ); ?>
-</td>
-</tr>
 
 
 

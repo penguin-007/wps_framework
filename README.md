@@ -8,6 +8,9 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.2 ####
+* Fixed bugs
+
 #### v0.1.1 ####
 * Fixed bugs
 * Add option theme "wps_framework_options" (documentation->home)
