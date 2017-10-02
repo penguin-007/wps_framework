@@ -12,6 +12,15 @@
  *
  */
 
+
+// load common script for admin panel
+add_action( 'admin_enqueue_scripts', 'enqueue_admin_scripts' );
+## Add script to admin panel
+function enqueue_admin_scripts() {
+  wp_enqueue_script( 'wps_admin_script', trailingslashit( WPS_ASSETS_URI ) . 'wps.admin.script.js', array('jquery'), WPS_VERSION, true );
+  wp_enqueue_style ( 'wps_admin_style',  trailingslashit( WPS_ASSETS_URI ) . 'wps.admin.style.css', array(), WPS_VERSION, null );
+}
+
 /**
  * Grab our framework options as registered by the theme.
  * By default everything is turned off.
@@ -84,7 +93,7 @@ new WPS_OptionPage(
       'menu_title' => 'WPS',
       'capability' => 'administrator',
       'menu_slug'  => 'wps_framework',
-      'icon'       => "dashicons-carrot"
+      'icon'       => WPS_ASSETS_URI.'/img/framework_ico.png'
     ),
     /* menu_setting */
     'fields'    => array(

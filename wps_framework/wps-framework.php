@@ -32,8 +32,6 @@ class WPS_Framework {
 
     add_action( 'after_setup_theme', array( $this, 'wps_theme_support' ) );
 
-    add_action( 'after_setup_theme', array( $this, 'wps_admin' ) );
-
     add_action( 'after_setup_theme', array( $this, 'wps_builders' ) );
 
     add_action( 'after_setup_theme', array( $this, 'wps_init' ) );
@@ -48,24 +46,20 @@ class WPS_Framework {
     /** Sets the framework version number. */
     $template  = get_template();
     $framework = wp_get_theme( $template );
-
     define( 'WPS_VERSION', $framework->get( 'Version' ) );
 
     /** Sets the path to the parent theme directory. */
     define( 'PARENT_DIR', get_template_directory() );
-
     /** Sets the path to the parent theme directory URI. */
     define( 'PARENT_URI', get_template_directory_uri() );
 
     /** Sets the path to the child theme directory. */
     define( 'CHILD_DIR', get_stylesheet_directory() );
-
     /** Sets the path to the child theme directory URI. */
     define( 'CHILD_URI', get_stylesheet_directory_uri() );
 
     /* WPS_Framework DIR  */
     define( 'WPS_DIR', trailingslashit( PARENT_DIR ) . basename( dirname( __FILE__ ) ) );
-
     /** WPS_Framework URI. */
     define( 'WPS_URI', trailingslashit( PARENT_URI ) . basename( dirname( __FILE__ ) ) );
 
@@ -75,17 +69,15 @@ class WPS_Framework {
     /** Sets the path to the builder functions directory. */
     define( 'WPS_BUILDERS', trailingslashit( WPS_DIR ) . 'builders' );
 
-    /** Sets the path to the modules framework directory. */
+    /** Sets the path to the assets framework directory. */
+    define( 'WPS_ASSETS', trailingslashit( PARENT_DIR ) . 'assets' );
+    /** Sets the path to the assets url framework directory. */
+    define( 'WPS_ASSETS_URI', trailingslashit( PARENT_URI ) . 'assets' );
+
+    /** Sets the path to the extensions framework directory. */
     define( 'WPS_EXTENSIONS', trailingslashit( PARENT_DIR ) . 'extensions' );
-
-    /** Sets the path to the modules url framework directory. */
+    /** Sets the path to the extensions url framework directory. */
     define( 'WPS_EXTENSIONS_URI', trailingslashit( PARENT_URI ) . 'extensions' );
-
-    /** Sets the path to the core framework admin directory. */
-    define( 'WPS_ADMIN_DIR', trailingslashit( WPS_DIR ) . 'admin' );
-
-    /** Sets the path to the core framework admin directory. */
-    define( 'WPS_ADMIN_URI', trailingslashit( WPS_URI ) . 'admin' );
   }
 
 
@@ -112,17 +104,11 @@ class WPS_Framework {
 
     // Load the theme functions for console.
     require_once( trailingslashit( WPS_CORE ) . 'console.php' );
+
+    // Load the theme functions for console.
+    require_once( trailingslashit( PARENT_DIR ) . 'wps_framework/ui-elements/class-wps-ui-elements.php' );
   }
 
-
-  /**
-   * Defines the theme admin function and UI elements.
-   * @since 1.0.0
-   */
-  function wps_admin(){
-    // Load the theme functions for development.
-    require_once( trailingslashit( WPS_ADMIN_DIR ) . 'class-wps-admin.php' );
-  }
 
   /**
    * Adds theme supported features.
