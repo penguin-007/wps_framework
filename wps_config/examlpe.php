@@ -134,7 +134,8 @@ new WPS_MetaBox(
             'field_name'  => 'select',
             'title'       => 'UI_Select',
             'description' => 'select desc',
-            'multiple'     => false,
+            'def_value'   => array("key"),
+            'multiple'    => false,
             'options'     => array(
               'key'  => 'val',
               'key1' => 'val1',

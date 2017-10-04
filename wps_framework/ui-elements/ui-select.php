@@ -40,6 +40,7 @@ class UI_Select {
     'value'        => array(),         // value
     'options'      => array(),
     'multiple'     => false,
+    'def_value'    => '',             // default value ( if empty value )
     'class'        => 'wps_ui_select', // class
     'add_class'    => ''               // if need new class
   );
@@ -53,13 +54,13 @@ class UI_Select {
     $setting  = $this->settings;
     // other
     $array_path   = $setting['array_path'];
-    $value        = $setting['value'];
+    $value        = $setting['value'] ? $setting['value'] : $setting['def_value'];
     $options      = $setting['options'];
     $class        = $setting['class'];
     $add_class    = $setting['add_class'];
-    $multiple     = $setting['multiple'] ? "multiple" : "";
+    $multiple     = $setting['multiple'] ? "multiple" : ""; 
 
-    $html .= '<select class="'.$class.' wps_ui_select2 '.$add_class.'" '.$multiple.' name="'.$array_path.'[]" />';
+    $html .= $value.'<select class="'.$class.' wps_ui_select2 '.$add_class.'" '.$multiple.' name="'.$array_path.'[]" />';
     if ( $options ){
       $html .= '<option  value="">----</option>';
       foreach ($options as $key => $name) {
