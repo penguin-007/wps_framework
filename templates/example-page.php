@@ -91,6 +91,29 @@
 </td>
 </tr>
 
+
+<tr>
+<td>Форма по шаблону + callback</td>
+<td>
+  <form class="wps_form_js" >
+
+    <input type="text" name="name" placeholder="name" required autocomplete="off">
+    <br><br>
+    <input type="tel"  name="pass" placeholder="pass" autocomplete="off">
+    <br><br>
+
+    <!-- hidden input -->
+    <input type="hidden" name="form_subject"  value="Регистрация">
+    <input type="hidden" name="form_title"    value="Данные регистрации">
+    <input type="hidden" name="form_callback" value="myfunction">
+    <input type="hidden" name="form_template" value="register">
+    <!-- hidden input -->
+    <input type="submit" value="Отправить">
+
+  </form>
+</td>
+</tr>
+
 <tr>
 <td>UI Textarea</td>
 <td>

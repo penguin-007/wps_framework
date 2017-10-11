@@ -48,8 +48,8 @@ class WPS_Mail {
         /* submenu_setting */
         'submenu_setting' => array(
           'submenupos' => "wps_framework",
-          'page_title' => 'MAIL Module',
-          'menu_title' => 'MAIL Module',
+          'page_title' => 'E-mail settings',
+          'menu_title' => 'E-mail',
           'capability' => 'administrator',
           'menu_slug'  => 'wps_mail_module_settings',
         ),
@@ -82,14 +82,14 @@ class WPS_Mail {
     if ( $this->get_email( $email_path ) ){
       $to = $this->get_email( $email_path );
     } else {
-      $result['g_error'] = "Не указана почта или указана неверно!";
-      exit( json_encode($result) );
+      exit( "Не указана почта или указана неверно!" );
     }
     /* base */
     $sender       = 'wordpress@' . wps__get_sitename();
     $project_name = wps__get_sitename()." ";
     /* other */
     $subject       = $_POST["form_subject"] ? htmlspecialchars( $_POST["form_subject"] ) : "No subject";
+    $form_callback = htmlspecialchars( $_POST["form_callback"] );
     $form_redirect = htmlspecialchars( $_POST["form_redirect"] );
     /* msg */
     $message = $this->render_message( $_POST );
@@ -104,6 +104,7 @@ class WPS_Mail {
       "message"       => $message,
       "attachment"    => $_FILES['file'],
       "form_redirect" => $form_redirect,
+      "form_callback" => $form_callback,
     ));
     /* result */
     exit ( $result );
@@ -120,6 +121,7 @@ class WPS_Mail {
     $message       = $args["message"];
     $attachment    = $args["attachment"];
     $form_redirect = $args["form_redirect"];
+    $form_callback = $args["form_callback"];
     // генерируем разделитель
     $end      = "\r\n";
     $boundary = "--".md5(uniqid(time())); 
@@ -154,15 +156,17 @@ class WPS_Mail {
       $message_all  .= $message_part;
     }
     // send
+    $result = array(); // need for js "data.result"
     if( wp_mail( $to, $subject, $message_all, $headers ) ) {
-      $result['success'] = "mail success";
+      // form_callback
+      if ( $form_callback != '' ) {
+        $result['callback'] = $form_callback;
+      }
       // form_redirect
       if ( $form_redirect != '' ) {
         $result['location'] = $form_redirect;
       }
-    } else {
-      $result['g_error'] = "mail error";
-    }
+    } 
     return json_encode($result);
   }
 
@@ -192,11 +196,11 @@ class WPS_Mail {
     $form_title = "";
     // check 
     if ( isset( $post["form_template"] ) && $post["form_template"] != "" ){
-    	$path     = CHILD_DIR."/wps_config/mail_template/";
-    	$template = htmlspecialchars( $post["form_template"] );
+      $path     = CHILD_DIR."/wps_config/mail_template/";
+      $template = htmlspecialchars( $post["form_template"] );
     }
     if ( isset( $post["form_title"] ) && $post["form_title"] != "" ){
-    	$form_title = htmlspecialchars( $post["form_title"] );
+      $form_title = htmlspecialchars( $post["form_title"] );
     }
     /* clear post */
     unset(
@@ -205,12 +209,13 @@ class WPS_Mail {
       $post['form_redirect'], 
       $post['form_title'],
       $post['email_path'],
-      $post['form_template']
+      $post['form_template'],
+      $post['form_callback']
     );
     /* msg */
     ob_start();
-	    require( "{$path}{$template}.php" );
-	    $message .= ob_get_contents();
+      require( "{$path}{$template}.php" );
+      $message .= ob_get_contents();
     ob_end_clean();
 
     return $message;
