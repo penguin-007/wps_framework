@@ -89,7 +89,6 @@ class WPS_Mail {
     $project_name = wps__get_sitename()." ";
     /* other */
     $subject       = $_POST["form_subject"] ? htmlspecialchars( $_POST["form_subject"] ) : "No subject";
-    $form_callback = htmlspecialchars( $_POST["form_callback"] );
     $form_redirect = htmlspecialchars( $_POST["form_redirect"] );
     /* msg */
     $message = $this->render_message( $_POST );
@@ -104,7 +103,6 @@ class WPS_Mail {
       "message"       => $message,
       "attachment"    => $_FILES['file'],
       "form_redirect" => $form_redirect,
-      "form_callback" => $form_callback,
     ));
     /* result */
     exit ( $result );
@@ -121,7 +119,6 @@ class WPS_Mail {
     $message       = $args["message"];
     $attachment    = $args["attachment"];
     $form_redirect = $args["form_redirect"];
-    $form_callback = $args["form_callback"];
     // генерируем разделитель
     $end      = "\r\n";
     $boundary = "--".md5(uniqid(time())); 
@@ -158,10 +155,6 @@ class WPS_Mail {
     // send
     $result = array(); // need for js "data.result"
     if( wp_mail( $to, $subject, $message_all, $headers ) ) {
-      // form_callback
-      if ( $form_callback != '' ) {
-        $result['callback'] = $form_callback;
-      }
       // form_redirect
       if ( $form_redirect != '' ) {
         $result['location'] = $form_redirect;
@@ -209,8 +202,7 @@ class WPS_Mail {
       $post['form_redirect'], 
       $post['form_title'],
       $post['email_path'],
-      $post['form_template'],
-      $post['form_callback']
+      $post['form_template']
     );
     /* msg */
     ob_start();
