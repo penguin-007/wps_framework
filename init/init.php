@@ -29,6 +29,7 @@ $defaults = array(
   "wps__example_config" => false,       
   'wps__extends_mail'   => false,
   'wps__extends_seo'    => false,
+  'wps__extends_cart'   => false,
   'wps__extends_tinymc' => true,
 );
 
@@ -47,6 +48,11 @@ if( '1' == $framework_options['wps__extends_mail'] ){
 /* seo */
 if( '1' == $framework_options['wps__extends_seo'] ){  
   require_once( WPS_EXTENSIONS.'/wps_seo/wps_seo_init.php' );
+}
+
+/* cart */
+if( '1' == $framework_options['wps__extends_cart'] ){  
+  require_once( WPS_EXTENSIONS.'/wps_cart/wps_cart_init.php' );
 }
 
 /* wps_tinymc extends */

@@ -72,6 +72,11 @@ class UI_Input {
       $type_input = 'text';
       $class      = 'wps_ui_input_color';
     }
+    // if type data
+    if ( $type_input == 'date' ){
+      $type_input = 'text';
+      $class      = 'wps_ui_input_date';
+    }
 
     $html = '<input 
     type="'.$type_input.'" 

@@ -76,6 +76,7 @@ select {
 
 /* common */
 .wps_ui_input,
+.wps_ui_input_date,
 .wps_ui_textarea,
 .wps_ui_input_num,
 .wps_ui_select {

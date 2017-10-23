@@ -114,6 +114,9 @@
 
   /* color picker */
   $('.wps_ui_input_color').wpColorPicker();
+  /* date picker */
+  $('.wps_ui_input_date').datepicker();
+
 
   /* wps__ui_button__ajax */
   $('body').on( 'click', '.wps__ui_button__ajax', function(){

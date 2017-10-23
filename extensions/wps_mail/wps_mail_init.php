@@ -101,7 +101,7 @@ class WPS_Mail {
       "sender"        => $sender,
       "subject"       => $subject,
       "message"       => $message,
-      "attachment"    => $_FILES['file'],
+      "attachments"   => $_FILES,
       "form_redirect" => $form_redirect,
     ));
     /* result */
@@ -117,7 +117,7 @@ class WPS_Mail {
     $sender        = $args["sender"];
     $subject       = $args["subject"];
     $message       = $args["message"];
-    $attachment    = $args["attachment"];
+    $attachments   = $args["attachments"];
     $form_redirect = $args["form_redirect"];
     // генерируем разделитель
     $end      = "\r\n";
@@ -135,23 +135,29 @@ class WPS_Mail {
     $message_all .= "Content-Transfer-Encoding: base64" . $end;    
     $message_all .= $end;
     $message_all .= chunk_split(base64_encode($message));
-    //if attachment
-    if( !empty($attachment['tmp_name']) ) {
-      $filename  = $attachment['name'];
-      $file      = $attachment['tmp_name'];
-      $file_size = filesize($file);
-      $handle    = fopen($file, "r");
-      $content   = fread($handle, $file_size);
-      fclose($handle);
-      $message_part  = $end . "--$boundary" . $end; 
-      $message_part .= "Content-Type: application/octet-stream; name=\"$filename\"" . $end;  
-      $message_part .= "Content-Transfer-Encoding: base64" . $end; 
-      $message_part .= "Content-Disposition: attachment; filename=\"$filename\"" . $end; 
-      $message_part .= $end;
-      $message_part .= chunk_split(base64_encode($content));
-      $message_part .= $end . "--$boundary--" . $end;
-      $message_all  .= $message_part;
+
+    // if attachments
+    if( is_array($attachments) && !empty($attachments) ) {
+      foreach ($attachments as $key => $attachment) {
+        if( !empty($attachment['tmp_name']) ) {
+          $filename  = $attachment['name'];
+          $file      = $attachment['tmp_name'];
+          $file_size = filesize($file);
+          $handle    = fopen($file, "r");
+          $content   = fread($handle, $file_size);
+          fclose($handle);
+          $message_part  = $end . "--$boundary" . $end; 
+          $message_part .= "Content-Type: application/octet-stream; name=\"$filename\"" . $end;  
+          $message_part .= "Content-Transfer-Encoding: base64" . $end; 
+          $message_part .= "Content-Disposition: attachment; filename=\"$filename\"" . $end; 
+          $message_part .= $end;
+          $message_part .= chunk_split(base64_encode($content));
+          $message_part .= $end . "--$boundary--" . $end;
+          $message_all  .= $message_part;
+        }
+      }
     }
+    
     // send
     $result = array(); // need for js "data.result"
     if( wp_mail( $to, $subject, $message_all, $headers ) ) {

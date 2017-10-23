@@ -8,8 +8,13 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.5 ####
+* Fixed bugs
+* Add "datepicker" to input field
+* Add extension "Cart", for simple shops
+
 #### v0.1.4.1 ####
-* add "callback" in "E-mail" extension (documentation->e-mail)
+* Add "callback" in "E-mail" extension [documentation](https://github.com/penguin-007/wps_framework/wiki/Module-%22E-mail%22)
 
 #### v0.1.3 ####
 * On element "UI_Select" add parametr "def_value"
@@ -22,7 +27,7 @@ You can learn more about WPS Framework features from the [official documentation
 
 #### v0.1.1 ####
 * Fixed bugs
-* Add option theme "wps_framework_options" (documentation->home)
+* Add option theme "wps_framework_options" [documentation](https://github.com/penguin-007/wps_framework/wiki)
 
 #### v0.1.0 ####
 * Start beta version
