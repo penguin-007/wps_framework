@@ -8,6 +8,9 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.6 ####
+* Add extension "Shortcodes"
+
 #### v0.1.5.1 ####
 * Fixed bugs
 

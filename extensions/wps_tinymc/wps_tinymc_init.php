@@ -12,7 +12,7 @@ function wptuts_add_buttons( $plugin_array ) {
 }
 function wptuts_register_buttons( $buttons ) {
 	//$buttons = array('formatselect', 'bold', 'removeformat', 'bullist', 'link', 'unlink', 'fullscreen', 'wp_adv');
-	array_push( $buttons, 'wps_bold' );
+	array_push( $buttons, 'wps_bold', 'collapse_btn' );
 	return $buttons;
 }
 add_action( 'current_screen', 'my_theme_add_editor_styles' );

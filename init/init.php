@@ -31,6 +31,7 @@ $defaults = array(
   'wps__extends_seo'    => false,
   'wps__extends_cart'   => false,
   'wps__extends_tinymc' => true,
+  'wps__shortcodes'     => true,
 );
 
 $framework_options = wp_parse_args( get_option('wps_framework_options'), $defaults);
@@ -55,11 +56,15 @@ if( '1' == $framework_options['wps__extends_cart'] ){
   require_once( WPS_EXTENSIONS.'/wps_cart/wps_cart_init.php' );
 }
 
-/* wps_tinymc extends */
+/* tinymc  */
 if( '1' == $framework_options['wps__extends_tinymc'] ){  
   require_once( WPS_EXTENSIONS.'/wps_tinymc/wps_tinymc_init.php' );
 }
 
+/* shortcode */
+if( '1' == $framework_options['wps__shortcodes'] ){  
+  require_once( WPS_EXTENSIONS.'/wps_shortcodes/shortcodes.php' );
+}
 
 
 ####################################################
