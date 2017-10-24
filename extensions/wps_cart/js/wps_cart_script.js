@@ -72,7 +72,7 @@ $(document).ready(function(){
   function wps_update_cart( callback ){
     var items = [];
     $(".fn__wps__cart_item_wrap").each(function(){
-      let data = {};
+      var data = {};
       data.item_id = $(this).data("item_id");
       data.count   = $(this).find(".fn__wps__cart_item_count").val();
       items.push( data );
@@ -165,7 +165,7 @@ $(document).ready(function(){
   }
 
   function wps_set_total_price(){
-    let sum = 0;
+    var sum = 0;
     $(".fn__wps__cart_item_wrap").each(function(){
       sum += parseInt( $(this).find(".fn__wps__cart_item_sum_price").text() );
     });
