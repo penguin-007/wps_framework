@@ -1,5 +1,0 @@
-<?php
-
-/*
-* For Page Settings
-*/

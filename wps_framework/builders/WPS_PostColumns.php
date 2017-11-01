@@ -8,43 +8,10 @@
  * @copyright Copyright (c) 2017, Alexander Laznevoy
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Allow type: text, checkbox, views
+ * Allow type: text, checkbox, views, image, row_color
  *
  */
 
-
-/* HOU USE
-new WPS_PostColumns(
-  array(
-    'post_type' => 'custom_post',
-    'fields'    => array(
-      // FIELDS
-    )
-  )
-);
-
-// FIELDS
-## text
-array(
-  'type'         => 'text',
-  'meta_name'    => 'meta_name',
-  'columns_name' => 'Заголовок'
-),
-
-## views
-array(
-  'type'         => 'views',
-  'columns_name' => 'Просмотры'
-),
-
-## checkbox
-array(
-  'type'         => 'checkbox',
-  'meta_name'    => 'checkbox',
-  'columns_name' => 'checkbox'
-),
-
-*/
 
 /*  TODO фильтрация колонок
 http://shibashake.com/wordpress-theme/expand-the-wordpress-quick-edit-menu
@@ -102,34 +69,40 @@ class WPS_PostColumns {
     $count  = 0;
     foreach ($fields as $value) {
       if ( $column  === "columns_title_{$count}" ){
+
+        $field_name = $value['field_name'];
+
         switch ( $value['field_type'] ) {
 
           case 'views':
-            echo wps__get_post_views( $postID );
+            $count =  wps__get_post_views( $postID );
+            $html  = "<div class='wps__row_text'>{$count}</div>";
+            echo $html;
           break;
 
           case 'row_color':
-            $field_name = $value['field_name'];
-            $options    = $value['options'];
-            $key        = get_post_meta( $postID, $field_name, true );
-            $value      = $key;
-            $html       = "<span class='wps__row_color'>{$options[$value]}</span>";
+            $options = $value['options'];
+            $key     = get_post_meta( $postID, $field_name, true );
+            $value   = $key;
+            $html    = "<span class='wps__row_color'>{$options[$value]}</span>";
             echo $html;
           break;
 
           case 'checkbox':
-            $field_name = $value['field_name'];
             wps_ui_checkbox__ajax( $field_name, '' );
           break;
 
           case 'text':
-            $field_name = $value['field_name'];
-            echo get_post_meta( $postID, $field_name, true );
+            $text  = get_post_meta( $postID, $field_name, true );
+            $after = $value['after_text'] ? $value['after_text'] : "";
+            $html  = "<div class='wps__row_text'>{$text}{$after_text}</div>";
+            echo $html;
           break;
 
           case 'image':
-            $field_name = $value['field_name'];
-            echo wp_get_attachment_image( get_post_meta( $postID, $field_name, true ), array( 60, 60 ) );
+            $img  = wp_get_attachment_image( get_post_meta( $postID, $field_name, true ), array( 60, 60 ) );
+            $html = "<div class='wps__row_image'>{$img}</div>";
+            echo $html;
           break;
 
           default:

@@ -101,8 +101,10 @@ $(document).ready(function(){
       whatdo: "sendCartOrder",
       form: form,
     };
-    function reload(){
-      window.location.replace("thanks-for-order/");
+    function reload(data){
+      if ( data.reload != '' ){
+        window.location.replace(data.reload);
+      }
     }
     wps__send_data( data, reload );
     // break form send

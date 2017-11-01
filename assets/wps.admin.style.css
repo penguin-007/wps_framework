@@ -196,6 +196,15 @@
   position: relative;
 }
 
+.wps__row_image,
+.wps__row_text {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 
 /* select 2 */
 .select2 li {

@@ -42,6 +42,7 @@
 // WPS_Cart::getCartProduct(); - получить массив товаров
 // WPS_Cart::get_actualy_price( $post_id ) - получить реальную цену товара
 // WPS_Cart::get_total_price(); - получить сумму в корзине
+// WPS_Cart::get_currency(); - получить валюту
 
 ?>
 
@@ -58,6 +59,7 @@
 
   <?php else:
     $products = WPS_Cart::getCartProduct();
+    $currency = WPS_Cart::get_currency();
   ?>
 
   <table>
@@ -103,13 +105,13 @@
           <?php pre_print_r( $product ) ?>
         </td>
         <td>
-          <span class="fn__wps__cart_item_price"><?php echo $price; ?></span>
+          <span class="fn__wps__cart_item_price"><?php echo $price; ?> <?php echo $currency; ?></span>
         </td>
         <td>
           <input type="number" min="1" class="item_count fn__wps__cart_item_count" value="<?php echo $count; ?>">
         </td>
         <td>
-          <span class="fn__wps__cart_item_sum_price"><?php echo $sum; ?></span>
+          <span class="fn__wps__cart_item_sum_price"><?php echo $sum; ?> <?php echo $currency; ?></span>
         </td>
         <td>
           <a href="<?php echo $link; ?>"><?php echo $title; ?></a>
@@ -135,7 +137,7 @@
         Всего: 
       </td>
       <td>
-        <span id="fn__wps__cart_fullprice"><?php echo WPS_Cart::get_total_price(); ?></span>
+        <span id="fn__wps__cart_fullprice"><?php echo WPS_Cart::get_total_price(); ?> <?php echo $currency; ?></span>
       </td>
     </tr>
 

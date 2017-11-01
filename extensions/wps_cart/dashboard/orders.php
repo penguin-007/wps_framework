@@ -12,7 +12,7 @@ new WPS_CustomType(
 
     /* Post Type Register */
     'register_post_type' => array(
-      'post_type' => 'wps_orders', // 1) custom-type name
+      'post_type' => 'wps_orders',
       // labels
       'labels'    => array(
         'name'          => 'Заказы',
@@ -25,7 +25,7 @@ new WPS_CustomType(
       ),
       // rewrite
       'rewrite' => array(
-        'slug'         => 'wps_orders', // 2) custom-type slug
+        'slug'         => 'wps_orders',
         'with_front'   => false,
         'hierarchical' => true
       ),
@@ -35,14 +35,13 @@ new WPS_CustomType(
         'query_var'           => false, 
         'publicly_queryable'  => false,
         'exclude_from_search' => true,
-        'taxonomies'        => array(''), // 3) 
-        'menu_icon'         => 'dashicons-cart', // 4) https://developer.wordpress.org/resource/dashicons/
+        'taxonomies'          => array(''),
+        'menu_icon'           => 'dashicons-cart',
       )
     ),
 
   )
 );
-
 
 
 
@@ -94,6 +93,11 @@ new WPS_PostColumns(
         'field_type'   => 'text',
         'field_name'   => 'order_price',
         'columns_name' => 'Сумма'
+      ),
+      array(
+        'field_type'   => 'text',
+        'field_name'   => 'currency',
+        'columns_name' => 'Валюта'
       ),
       array(
         'field_type'   => 'checkbox',

@@ -8,8 +8,14 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.7 ####
+* Fixed bugs
+* Some improvements in the "Cart" extension
+* Some improvements in the "Mail" extension
+* Some improvements in the "PostColumns" builder
+
 #### v0.1.6 ####
-* Add extension "Shortcodes"
+* Add extension "Shortcodes" (test)
 
 #### v0.1.5.1 ####
 * Fixed bugs
@@ -17,7 +23,7 @@ You can learn more about WPS Framework features from the [official documentation
 #### v0.1.5 ####
 * Fixed bugs
 * Add "datepicker" to input field
-* Add extension "Cart", for simple shops
+* Add extension "Cart", for simple shops (beta)
 
 #### v0.1.4.1 ####
 * Add "callback" in "E-mail" extension [documentation](https://github.com/penguin-007/wps_framework/wiki/Module-%22E-mail%22)

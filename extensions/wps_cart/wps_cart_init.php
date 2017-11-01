@@ -15,16 +15,18 @@ class WPS_Cart{
 
     // init Order list
     require_once 'dashboard/orders.php';
+    // init Setting
+    require_once 'dashboard/settings.php';
   }
 
   // init_script
   public function init_script (){
-    wp_enqueue_script  ( 'wps_cart_script', trailingslashit( WPS_EXTENSIONS_URI ) . 'wps_cart/js/wps_cart_script.js', array('jquery'), WPS_VERSION, true );
+    wp_enqueue_script ( 'wps_cart_script', trailingslashit( WPS_EXTENSIONS_URI ) . 'wps_cart/js/wps_cart_script.js', array('jquery'), WPS_VERSION, true );
   }
 
   // Cart Actions
   public function cart_actions(){
-    $whatdo = $_POST["whatdo"];
+    $whatdo = htmlspecialchars($_POST["whatdo"]);
     if ( $whatdo ){
       unset(
         $_POST["action"],
@@ -178,16 +180,20 @@ class WPS_Cart{
       'meta_input'    => array(
         'user_data'   => $form_html,
         'order_price' => WPS_Cart::get_total_price(),
+        'currency'    => WPS_Cart::get_currency()
       )
     );
     wp_insert_post( $order_detail );
 
+    // get options
+    $options  = self::get_options();
+    // if set reload
+    $result["reload"] = $options["slug_page_thanks"] ? $options["slug_page_thanks"] : "";
     // send message on mail
-    $to_option  = get_option('wps_mail_module_settings');
-    $to         = $to_option['theme_email'];
-    $sender     = 'wordpress@' . wps__get_sitename();
-    $from       = get_option('blogname')." ";
-    $subject    = "Заказ №".$new_count;
+    $to       = $options['general_email'];
+    $sender   = 'wordpress@' . wps__get_sitename();
+    $from     = get_option('blogname')." ";
+    $subject  = "Заказ №".$new_count;
 
     $result["success"] = WPS_Mail::send_email(array(
       "to"          => $to,
@@ -222,6 +228,14 @@ class WPS_Cart{
 
 
   // CART METHODS
+  public static function get_options(){
+    // get options
+    $options = get_option('wps_cart_module_settings');
+    if ( is_array($options) ){
+      return $options;
+    }
+  }
+
   public static function getCountCart( $goods_obj = NULL ){ 
     $countCall = 0;
     if( !$_COOKIE['wps__cart_item'] ) return $countCall;
@@ -274,6 +288,12 @@ class WPS_Cart{
       }
     }
     return $total;
+  }
+
+  public static function get_currency(){
+    $options  = self::get_options();
+    $currency = $options["currency"];
+    return $currency; 
   }
 
 }
