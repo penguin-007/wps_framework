@@ -76,7 +76,7 @@ class WPS_SEO {
         'fields'    => array(
           array(
             'field_type'   => 'message', 
-            'message'      => 'Добавление полей "Title", "Description", "SEO Text", на страницы типов записей, таксономий, страниц архивов. <br><br>Не работает с другими подобными плагинами! ',
+            'message'      => 'Находится в стадии переработки',
           ),
           array(
             'field_type'   => 'select',

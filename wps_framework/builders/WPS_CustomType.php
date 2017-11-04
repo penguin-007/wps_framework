@@ -10,72 +10,6 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-
-/* HOW USE
-new WPS_CustomType(
-  array(
-    ## Create Files
-    'create_archive_file' => false,
-    'create_single_file'  => false,
-
-    ## Post Type Register
-    'register_post_type' => array(
-      'post_type' => 'custom_post2', // 1) custom-type name
-      // labels
-      'labels'    => array(
-        'name'          => 'PostType2',
-        'singular_name' => 'PostType2', 
-        'menu_name'     => 'PostType2'
-      ),
-      // supports_label
-      'supports_label' => array(
-        'title',
-        //'thumbnail', 
-        'editor',
-        //'custom-fields',
-      ),
-      // rewrite
-      'rewrite' => array(
-        'slug'         => 'custom_post2', // 2) custom-type slug
-        'with_front'   => false,
-        'hierarchical' => true
-      ),
-      // general
-      'general' => array(
-        // if need remove in query
-        //'query_var'           => false, 
-        //'publicly_queryable'  => false,
-        //'exclude_from_search' => true,
-        'taxonomies'        => array('name_cat'), // 3) 
-        'menu_icon'         => 'dashicons-star-empty', // 4) https://developer.wordpress.org/resource/dashicons/
-      )
-    ),
-
-    ## Create Taxonomy 
-    'register_taxonomy' => array(
-      // tax
-      array (
-        'taxonomy_name' => 'name_cat',         // 1) 
-        'setting' => array(
-          'label'             => 'Таксономия', // 2) 
-          'hierarchical'      => true,
-          'public'            => true,
-          'query_var'         => true,
-          'rewrite'           => array( 
-            'slug'         => 'name_cat',      // 3)
-            'with_front'   => true,
-            'hierarchical' => true
-          ),
-          'show_admin_column' => true, 
-          'show_ui'           => true 
-        )
-      ),
-      // tax
-    )
-
-  )
-);
-*/
  
 class WPS_CustomType {
 
@@ -179,7 +113,7 @@ class WPS_CustomType {
   ################### File Creator ###################
   ####################################################
   public function create_post_archive( $post_type ){
-    $post_archive = PARENT_DIR . "/archive-{$post_type}.php";
+    $post_archive = CHILD_DIR . "/archive-{$post_type}.php";
     if ( !file_exists($post_archive) ) {
       $fp      = fopen( $post_archive, "w");
       $content = "<?php get_header(); ?>\n\n<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>\n\n<?php endwhile; else: ?>\n <p><?php _e(''); ?></p>\n<?php endif; ?>\n\n<?php get_footer(); ?>";
@@ -189,7 +123,7 @@ class WPS_CustomType {
   }
 
   public function create_post_single( $post_type ){
-    $post_archive = PARENT_DIR . "/single-{$post_type}.php";
+    $post_archive = CHILD_DIR . "/single-{$post_type}.php";
     if ( !file_exists($post_archive) ) {
       $fp      = fopen( $post_archive, "w");
       $content = "<?php get_header(); ?>\n\n<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>\n\n<?php endwhile; else: ?>\n <p><?php _e(''); ?></p>\n<?php endif; ?>\n\n<?php get_footer(); ?>";

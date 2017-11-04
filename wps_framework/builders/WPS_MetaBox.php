@@ -11,27 +11,6 @@
  * @todo type: radio, map
  */
 
-
-/* HOW USE
-new WPS_MetaBox(
-  array(
-    'meta_box_name'   => 'Поля 2',                 // 1) 
-    'post_types'      => array( 'custom_post' ),   // 2) can choose several
-    'page_templates'  => array( 'templates/home-page.php' ), // 3) path to page template, can choose several 
-    'meta_box_groups' => array(
-      // Group fields
-      array(
-        'title'    => 'Группа 1',
-        'fields'   => array(
-          // FIELDS
-        )
-      ),
-      // Group fields
-    )
-  )
-);
-
-*/
  
 class WPS_MetaBox {
 
@@ -89,10 +68,10 @@ class WPS_MetaBox {
       $fields     = $value['fields'];
   ?>
   
-  <table class="wps_post_page_table">
+  <div class="wps__post_page__wrapper">
     <?php 
     if( $group_name != '' ) {
-      echo "<caption>{$group_name}</caption>";
+      echo "<span class='group_title'>{$group_name}</span>";
     }
 
     if ( $fields ) {
@@ -107,98 +86,96 @@ class WPS_MetaBox {
         $value['array_path'] = "wps_post_field[{$field_name}]";
         $value['value']      = get_post_meta( $post->ID, $field_name, true );
     ?>
-    <tr>
-      <td>
-        <p class="description"><?= $title; ?></p>
-        <?php
+    <div class="wps__post_page__row">
+      <p class="description"><?= $title; ?></p>
+      <p class="wps_description_field"><?= $description; ?></p>
+      <?php
 
-        switch ( $field_type ) {
+      switch ( $field_type ) {
 
-          # 1) input
-          case 'input':
-            $ui_input = new UI_Input( $value );
-            echo $ui_input->render();
-          break;
+        # 1) input
+        case 'input':
+          $ui_input = new UI_Input( $value );
+          echo $ui_input->render();
+        break;
 
-          # 2) textarea
-          case 'textarea':
-            $ui_textarea = new UI_Textarea( $value );
-            echo $ui_textarea->render();
-          break;
+        # 2) textarea
+        case 'textarea':
+          $ui_textarea = new UI_Textarea( $value );
+          echo $ui_textarea->render();
+        break;
 
-          # 3) checkbox
-          case 'checkbox':
-            $ui_checkbox = new UI_Checkbox( $value );
-            echo $ui_checkbox->render();
-          break;
+        # 3) checkbox
+        case 'checkbox':
+          $ui_checkbox = new UI_Checkbox( $value );
+          echo $ui_checkbox->render();
+        break;
 
-          # 4) wp_editor
-          case 'wp_editor':
-            $ui_wp_editor = new UI_WP_editor( $value );
-            $ui_wp_editor->render();
-          break;
+        # 4) wp_editor
+        case 'wp_editor':
+          $ui_wp_editor = new UI_WP_editor( $value );
+          $ui_wp_editor->render();
+        break;
 
-          # 5) select
-          case 'select':
-            $ui_select = new UI_Select( $value );
-            echo $ui_select->render();
-          break;
+        # 5) select
+        case 'select':
+          $ui_select = new UI_Select( $value );
+          echo $ui_select->render();
+        break;
 
-          # 6) image
-          case 'image':
-            $ui_image = new UI_Image( $value );
-            echo $ui_image->render();
-          break;
+        # 6) image
+        case 'image':
+          $ui_image = new UI_Image( $value );
+          echo $ui_image->render();
+        break;
 
-          # 7) simple_gallery
-          case 'simple_gallery':
-            $ui_simple_gallery = new UI_SimpleGallery( $value );
-            echo $ui_simple_gallery->render();
-          break;
+        # 7) simple_gallery
+        case 'simple_gallery':
+          $ui_simple_gallery = new UI_SimpleGallery( $value );
+          echo $ui_simple_gallery->render();
+        break;
 
-          # 8) repeater
-          case 'repeater':
-            $ui_repeater = new UI_Repeater( $value );
-            echo $ui_repeater->render();
-          break;
+        # 8) repeater
+        case 'repeater':
+          $ui_repeater = new UI_Repeater( $value );
+          echo $ui_repeater->render();
+        break;
 
-          # 9) message
-          case 'message':
-            $ui_message = new UI_Message( $value );
-            echo $ui_message->render();
-          break;
+        # 9) message
+        case 'message':
+          $ui_message = new UI_Message( $value );
+          echo $ui_message->render();
+        break;
 
-          # 10) file
-          case 'file':
-            $ui_file = new UI_File( $value );
-            echo $ui_file->render();
-          break;
+        # 10) file
+        case 'file':
+          $ui_file = new UI_File( $value );
+          echo $ui_file->render();
+        break;
 
-          # 11) button
-          case 'button':
-            $ui_button = new UI_Button( $value );
-            echo $ui_button->render();
-          break;
+        # 11) button
+        case 'button':
+          $ui_button = new UI_Button( $value );
+          echo $ui_button->render();
+        break;
 
-          # 999) hide_block
-          case 'hide_block':
-            $ui_hide_block = new UI_Hide_block( $value );
-            echo $ui_hide_block->render();
-          break;
+        # 999) hide_block
+        case 'hide_block':
+          $ui_hide_block = new UI_Hide_block( $value );
+          echo $ui_hide_block->render();
+        break;
 
-          default:
-            echo "UI-элемент не поддерживается или неверно указан тип.";
-          break;
-        }
-        ?>
-        <p class="wps_description_field"><?= $description; ?></p>
-      </td>
-    </tr>
+        default:
+          echo "UI-элемент не поддерживается или неверно указан тип.";
+        break;
+      }
+      ?>
+    </div>
     <?php
       }
     }
     ?>
-  </table>
+  </div>
 
   <?php 
     }

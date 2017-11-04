@@ -8,6 +8,11 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.8 ####
+* Fixed bugs
+* Some improvements in the "Mail" extension
+* Visual style improvements
+
 #### v0.1.7 ####
 * Fixed bugs
 * Some improvements in the "Cart" extension

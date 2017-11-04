@@ -1,11 +1,7 @@
 .wp-list-table .save_my_checkbox__label {
-  position: absolute;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  -o-transform: translateY(-50%);
-  transform: translateY(-50%);
-}.save_my_checkbox__label {
+	margin-top: 15px;
+}
+.save_my_checkbox__label {
   display: inline-block;
   padding: 3px;
   background: #444;

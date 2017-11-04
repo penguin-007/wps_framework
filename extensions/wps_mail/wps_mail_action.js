@@ -20,9 +20,10 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
       cache: false,
       processData: false,
       contentType: false,
-      beforeSend: function(data){ 
+      beforeSend: function(){ 
         form.addClass('sending');
         btn_submit.addClass('sending');
+				btn_submit.prop('disabled', true);
       },
       success: function(data) {
         // if redirect
@@ -31,6 +32,7 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
         } else {
           form.trigger('reset');
           // clear styles
+          btn_submit.prop('disabled', false);
           form.removeClass('sending');
           btn_submit.removeClass('sending');
           // style success
@@ -42,7 +44,7 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
             btn_submit.removeClass('success');
           }, 2500);
           // message
-          console.log("mail send success");
+          console.log("WPS Mail success");
         }
         // if callback
         if ( typeof MailActions[callback] !== "undefined" ){
@@ -50,7 +52,8 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
         }
       },
       error: function(data){
-        console.log("Mail ajax error");
+        console.log("WPS Mail error");
+				btn_submit.prop('disabled', false);
       }
     });
     return false;
