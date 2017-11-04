@@ -3,11 +3,11 @@
   font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
   color: #686461;
   font-size:14px;
-  margin: 0 -12px;
+  margin: -1px -12px -12px;
   overflow: hidden;
 }
 .wps__post_page__row {
-	padding: 15px 10px;
+	padding: 20px 12px;
 }
 .wps__post_page__row:nth-child(2n) {
     background-color: #f2f3f4;

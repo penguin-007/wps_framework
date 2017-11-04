@@ -8,6 +8,9 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.8.1 ####
+* Fixed bugs
+
 #### v0.1.8 ####
 * Fixed bugs
 * Some improvements in the "Mail" extension
