@@ -11,6 +11,8 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
     data.append("action", "wps_form_send");
     // callback
     var callback = form.data("callback");
+    // redirect
+    var redirect = form.find('[name=form_redirect]').val();
 
     $.ajax({
       url : theme_ajax.url, 
@@ -27,8 +29,8 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
       },
       success: function(data) {
         // if redirect
-        if ( data.location !== undefined && data.location !== "" ) {
-          window.location.replace(data.location+"/");
+        if ( redirect !== undefined && redirect !== "" ) {
+          window.location.replace(redirect+"/");
         } else {
           form.trigger('reset');
           // clear styles
