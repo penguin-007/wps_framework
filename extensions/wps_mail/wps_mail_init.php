@@ -133,41 +133,43 @@ class WPS_Mail {
 
   // send_email for SMTP
   public function send_email__smtp($args){
-  	add_action( 'phpmailer_init', array( $this, 'smtp_config') ); 
+    add_action( 'phpmailer_init', array( $this, 'smtp_config') ); 
     // defaults settings
     $to            = $args["to"];
     $from          = $args["from"];
     $sender        = $args["sender"];
     $subject       = $args["subject"];
     $message       = $args["message"];
+    // генерируем разделитель
+    $end      = "\r\n";
     /* header */
-    $headers  = "Content-type: text/html; charset=utf-8 \r\n"; 
-    $headers .= 'From: ' . $from . '<'. $sender . '>';
+    $headers  = "Content-type: text/html; charset=utf-8" . $end;
+    $headers .= "From: $from <$sender>" . $end; 
     // send
     return wp_mail( $to, $subject, $message, $headers );
   }
 
 
   /* smtp_config
-	define( 'WPS__SMTP_HOST',   '' ); // The hostname of the mail server
-	define( 'WPS__SMTP_USER',   '' ); // Username to use for SMTP authentication
-	define( 'WPS__SMTP_PASS',   '' ); // Password to use for SMTP authentication
-	define( 'WPS__SMTP_FROM',   '' ); // SMTP From email address
-	define( 'WPS__SMTP_PORT',   '25' );  // SMTP port number - likely to be 25, 465 or 587
-	define( 'WPS__SMTP_SECURE', 'tls' ); // Encryption system to use - ssl or tls
-	*/
-	public function smtp_config( $phpmailer ) {
-		$phpmailer->isSMTP();
-		$phpmailer->Host       = WPS__SMTP_HOST;
-		$phpmailer->SMTPAuth   = true;
-		$phpmailer->Port       = WPS__SMTP_PORT;
-		$phpmailer->Username   = WPS__SMTP_USER;
-		$phpmailer->Password   = WPS__SMTP_PASS;
-		$phpmailer->SMTPSecure = WPS__SMTP_SECURE;
-		$phpmailer->From       = WPS__SMTP_FROM;
+  define( 'WPS__SMTP_HOST',   '' ); // The hostname of the mail server
+  define( 'WPS__SMTP_USER',   '' ); // Username to use for SMTP authentication
+  define( 'WPS__SMTP_PASS',   '' ); // Password to use for SMTP authentication
+  define( 'WPS__SMTP_FROM',   '' ); // SMTP From email address
+  define( 'WPS__SMTP_PORT',   '25' );  // SMTP port number - likely to be 25, 465 or 587
+  define( 'WPS__SMTP_SECURE', 'tls' ); // Encryption system to use - ssl or tls
+  */
+  public function smtp_config( $phpmailer ) {
+    $phpmailer->isSMTP();
+    $phpmailer->Host       = WPS__SMTP_HOST;
+    $phpmailer->SMTPAuth   = true;
+    $phpmailer->Port       = WPS__SMTP_PORT;
+    $phpmailer->Username   = WPS__SMTP_USER;
+    $phpmailer->Password   = WPS__SMTP_PASS;
+    $phpmailer->SMTPSecure = WPS__SMTP_SECURE;
+    $phpmailer->From       = WPS__SMTP_FROM;
     // Always remove self at the end
     remove_action( 'phpmailer_init', __function__ );
-	}
+  }
 
 
   /* get_email */

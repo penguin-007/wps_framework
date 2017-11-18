@@ -25,7 +25,7 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
       beforeSend: function(){ 
         form.addClass('sending');
         btn_submit.addClass('sending');
-				btn_submit.prop('disabled', true);
+        btn_submit.prop('disabled', true);
       },
       success: function(data) {
         // if redirect
@@ -55,7 +55,7 @@ if ( typeof(MailActions) === "undefined" ||  typeof(MailActions) === "null" ){
       },
       error: function(data){
         console.log("WPS Mail error");
-				btn_submit.prop('disabled', false);
+        btn_submit.prop('disabled', false);
       }
     });
     return false;
