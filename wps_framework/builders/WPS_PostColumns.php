@@ -94,8 +94,11 @@ class WPS_PostColumns {
 
           case 'text':
             $text  = get_post_meta( $postID, $field_name, true );
+            if ( is_array($text) ) {
+              $text = reset($text);
+            }
             $after = $value['after_text'] ? $value['after_text'] : "";
-            $html  = "<div class='wps__row_text'>{$text}{$after_text}</div>";
+            $html  = "<div class='wps__row_text'>{$text}{$after}</div>";
             echo $html;
           break;
 
