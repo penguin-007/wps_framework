@@ -8,6 +8,9 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.1.9.3 ####
+* Improvements counter posts
+
 #### v0.1.9.2 ####
 * Fixed bugs
 

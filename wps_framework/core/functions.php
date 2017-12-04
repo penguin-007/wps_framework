@@ -13,8 +13,18 @@
  * Set post views
  */
 function wps__set_post_views( $postID ){
+  $userIP = $_SERVER['SERVER_ADDR'];
+
+  if ( $_SESSION['user_IP'] == $userIP && in_array( $postID, $_SESSION['user_IP_posts']) ){
+    return false;
+  }
+  /* set user IP */
+  $_SESSION['user_IP'] = $userIP;
+  $_SESSION['user_IP_posts'][] = $postID;
+  
   $count_key = 'wps_post_views_count';
   $count     = get_post_meta( $postID, $count_key, true );
+
   if( $count != "" ){
     $count++;
     update_post_meta( $postID, $count_key, $count );
@@ -36,6 +46,23 @@ function wps__get_post_views( $postID ){
     return 0;
   }
 }
+
+/**
+ * Clear post views
+ */
+function wps__clear_post_views( $post_type ){
+  $count_key = 'wps_post_views_count';
+  $posts = get_posts([
+    'post_type'   => $post_type,
+    'post_status' => 'publish',
+    'numberposts' => -1
+  ]);
+  foreach ($posts as $key => $post) {
+    update_post_meta( $post->ID, $count_key, 0 );
+  }
+  wp_reset_postdata();
+}
+
 
 ## Get_sitename
 function wps__get_sitename(){

@@ -9,7 +9,6 @@
  * @license    http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-
 /**
  * Show post view in frontend
  *
@@ -21,7 +20,7 @@ function wps__post_view() {
   global $post;
   if ( ! isset($post ) || ! is_object( $post ) )
   return;
-  if ( is_single( $post->ID ) ) {
+  if ( is_single( $post->ID ) && !is_user_logged_in() ) {
     wps__set_post_views( $post->ID );
   }
 }
@@ -30,5 +29,4 @@ function wps__post_view() {
 // Add image size // plugin Force Regenerate Thumbnails 
 if ( function_exists( 'add_image_size' ) ) {
   add_image_size( '150_150', 150, 150, true ); 
-} 
-
+}
