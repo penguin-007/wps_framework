@@ -30,6 +30,7 @@ $defaults = array(
   'wps__extends_mail'   => false,
   'wps__extends_seo'    => false,
   'wps__extends_cart'   => false,
+  'wps__extends_likes'  => false,
   'wps__extends_tinymc' => true,
   'wps__shortcodes'     => true,
 );
@@ -54,6 +55,11 @@ if( '1' == $framework_options['wps__extends_seo'] ){
 /* cart */
 if( '1' == $framework_options['wps__extends_cart'] ){  
   require_once( WPS_EXTENSIONS.'/wps_cart/wps_cart_init.php' );
+}
+
+/* likes */
+if( '1' == $framework_options['wps__extends_likes'] ){  
+  require_once( WPS_EXTENSIONS.'/wps_likes/wps_likes_init.php' );
 }
 
 /* tinymc  */

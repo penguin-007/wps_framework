@@ -74,6 +74,9 @@ add_action( 'wp_head', 'wps_meta_base', 2 );
 // Add favicon tags to page
 add_action( 'wp_head', 'wps__favicon_tags' );
 
+// footer
+add_action( 'wp_footer', 'wps__ajax_cdata' );
+
 
 /**
  * Adds the meta charset to the header.
@@ -108,3 +111,17 @@ function wps_meta_base() {
   printf( '<base href="%s/" >' . "\n", get_site_url() );
 }
 
+/**
+ * Adds ajax cdata.
+ */
+function wps__ajax_cdata() {
+  $ajax_url = wp_json_encode(admin_url('admin-ajax.php'));
+  $html = '
+  <script type="text/javascript">
+  /* <![CDATA[ */
+  var theme_ajax = {"url":'.$ajax_url.' };
+  /* ]]> */
+  </script>
+  ';
+  echo $html;
+}

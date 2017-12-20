@@ -36,11 +36,6 @@ class WPS_Mail {
   // init_script
   public function init_script(){
     wp_enqueue_script  ( 'wps_mail_action', trailingslashit( WPS_EXTENSIONS_URI ) . 'wps_mail/wps_mail_action.min.js', array('jquery'), WPS_VERSION, true );
-    wp_localize_script ( 'wps_mail_action', 'theme_ajax',
-      array(
-        'url' => admin_url('admin-ajax.php')
-      )
-    );
   } 
 
 

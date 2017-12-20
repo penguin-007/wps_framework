@@ -8,6 +8,10 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.2.0.0 ####
+* Add extension "likes"
+* Improved output "ajax" CDATA
+
 #### v0.1.9.3 ####
 * Improvements counter posts
 
