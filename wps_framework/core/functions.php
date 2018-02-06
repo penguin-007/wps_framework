@@ -52,11 +52,11 @@ function wps__get_post_views( $postID ){
  */
 function wps__clear_post_views( $post_type ){
   $count_key = 'wps_post_views_count';
-  $posts = get_posts([
+  $posts = get_posts(array(
     'post_type'   => $post_type,
     'post_status' => 'publish',
     'numberposts' => -1
-  ]);
+  ));
   foreach ($posts as $key => $post) {
     update_post_meta( $post->ID, $count_key, 0 );
   }
@@ -131,7 +131,7 @@ function wps_get_favicon_tags() {
     'sizes' => "16",
   );
 
-  $result .= sprintf( $default_format, $icons['type'], $icons['rel'], $favicon_url );
+  $result = sprintf( $default_format, $icons['type'], $icons['rel'], $favicon_url );
   $result .= sprintf( $device_format, $icons['rel'], $icons['sizes'], $favicon_url );
 
   return $result;

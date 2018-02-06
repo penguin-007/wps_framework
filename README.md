@@ -7,6 +7,9 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.2.2.0 ####
+* Fixed bugs
+
 #### v0.2.1.0 ####
 * Improvements extension "SEO"
 

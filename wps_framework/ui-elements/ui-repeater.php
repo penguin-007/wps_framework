@@ -57,7 +57,7 @@ class UI_Repeater {
 
 
     // html
-    $html .= '<div class="wps__repeater__holder" >';
+    $html = '<div class="wps__repeater__holder" >';
       $html .= '<span class="wps__repeater__add_before">Добавить</span>';
 
       // clone

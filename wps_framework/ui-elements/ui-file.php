@@ -47,7 +47,6 @@ class UI_File {
     // other
     $array_path   = $setting['array_path'];
     $value        = $setting['value'] ? $setting['value'] : $setting['def_value'];
-    $class        = $setting['class'];
 
     $file_name = basename($value);
     $file_name = basename($value, ".php");

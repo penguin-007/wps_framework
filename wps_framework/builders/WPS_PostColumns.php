@@ -70,7 +70,7 @@ class WPS_PostColumns {
     foreach ($fields as $value) {
       if ( $column  === "columns_title_{$count}" ){
 
-        $field_name = $value['field_name'];
+        $field_name = isset($value['field_name']) && $value['field_name'] != "" ? $value['field_name'] : '';
 
         switch ( $value['field_type'] ) {
 
@@ -97,7 +97,7 @@ class WPS_PostColumns {
             if ( is_array($text) ) {
               $text = reset($text);
             }
-            $after = $value['after_text'] ? $value['after_text'] : "";
+            $after = isset($value['after_text']) && $value['after_text'] != "" ? $value['after_text'] : "";
             $html  = "<div class='wps__row_text'>{$text}{$after}</div>";
             echo $html;
           break;

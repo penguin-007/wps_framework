@@ -31,6 +31,12 @@ class UI_WP_editor {
   // general settings
   private $settings = array();
 
+  private $defaults_settings = array(
+    'value'        => '',             // value
+    'def_value'    => '',             // default value ( if empty value )
+    'options'      => array()
+  );
+
   private $defaults_options = array(
     'wpautop'       => 0, // wpautop() добавляет параграфы
     'textarea_rows' => 5,
@@ -47,7 +53,7 @@ class UI_WP_editor {
   );
 
   function __construct( $args = array() ) {
-    $this->settings = $args;
+    $this->settings = wp_parse_args( $args, $this->defaults_settings );
   }
 
   public function render() {

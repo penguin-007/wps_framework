@@ -55,6 +55,8 @@ class UI_Button {
     global $post;
     // get setting
     $setting  = $this->settings;
+    // post id
+    $post_id = is_object($post) && $post->ID != "" ? $post->ID : "";
     // other
     $btn_value    = $setting['btn_value'];
     $class        = $setting['class'];
@@ -73,7 +75,7 @@ class UI_Button {
     <div class="wps__ui_button__holder" >
       <input 
       type="button" 
-      data-post-id="'.$post->ID.'" 
+      data-post-id="'.$post_id.'" 
       data-confirm="'.$confirm.'" 
       class="'.$class.'" 
       id="'.$id.'" 

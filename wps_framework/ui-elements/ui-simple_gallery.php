@@ -51,7 +51,7 @@ class UI_SimpleGallery {
     	unset($value[0]);
     }
 
-    $html .= '<div class="wps__simple_gallery__holder" >';
+    $html = '<div class="wps__simple_gallery__holder" >';
     	$html .= '<span class="wps__simple_gallery__add_before">Добавить изображение</span>';
 
     	// clone

@@ -77,6 +77,8 @@ class WPS_OptionPage {
     $slug    = $this->slug;
     $fields  = $this->options->fields;
     $data    = get_option( $slug );
+    // create array
+    $array = array();
 
     // add field before
     $more_fiels_before = apply_filters( 'option_page_content__before', $array, $slug );
@@ -98,14 +100,14 @@ class WPS_OptionPage {
         <?php
         foreach ($fields as $value) {
           $field_type  = $value['field_type'];
-          $title       = $value['title'] ? $value['title'] : '';
+          $title       = isset($value['title']) && $value['title'] != "" ? $value['title'] : '';
           $description = isset($value['description']) ? $value['description'] : '';
 
           // field setting
-          $field_name          = $value['field_name'];
+          $field_name          = isset($value['field_name']) && $value['field_name'] != "" ? $value['field_name'] : '';
           $value['save_key']   = $slug;
           $value['array_path'] = $slug."[{$field_name}]";
-          $value['value']      = isset($data) && is_array($data) ? $data[$field_name] : ""; 
+          $value['value']      = isset($data[$field_name]) && $data[$field_name] != '' ? $data[$field_name] : ""; 
 
           echo '<div class="wps_option_row">';
           echo "<p>$title</p>";

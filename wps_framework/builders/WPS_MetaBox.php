@@ -77,11 +77,11 @@ class WPS_MetaBox {
     if ( $fields ) {
       foreach ($fields as $value) {
         $field_type  = $value['field_type'];
-        $title       = $value['title'] ? $value['title'] : '';
-        $description = $value['description'] ? $value['description'] : '';
+        $title       = isset($value['title']) && $value['title'] != "" ? $value['title'] : '';
+        $description = isset($value['description']) && $value['description'] != "" ? $value['description'] : '';
 
         // field setting
-        $field_name          = $value['field_name'];
+        $field_name          = isset($value['field_name']) && $value['field_name'] != "" ? $value['field_name'] : '';
         $value['save_key']   = "wps_post_field";
         $value['array_path'] = "wps_post_field[{$field_name}]";
         $value['value']      = get_post_meta( $post->ID, $field_name, true );
