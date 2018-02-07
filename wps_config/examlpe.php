@@ -332,11 +332,6 @@ new WPS_PostColumns(
         'columns_name' => 'checkbox'
       ),
       array(
-        'field_type'   => 'text',
-        'field_name'   => 'seo_post_title',
-        'columns_name' => 'SEO Title'
-      ),
-      array(
         'field_type'   => 'row_color',
         'field_name'   => 'checkbox',
         'columns_name' => 'Row Color',

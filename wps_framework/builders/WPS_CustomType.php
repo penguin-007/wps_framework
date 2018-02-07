@@ -95,9 +95,9 @@ class WPS_CustomType {
   ####################################################
   public function create_taxonomy() {
     // get options post-type
-    $taxonomy_options = $this->options->register_taxonomy;
+    $taxonomy_options = isset($this->options->register_taxonomy) ? $this->options->register_taxonomy : "";
 
-    if ( $taxonomy_options ) {
+    if ( $taxonomy_options && $taxonomy_options != "" ) {
       foreach( $taxonomy_options as $value ) {
         register_taxonomy(
           $value['taxonomy_name'],

@@ -38,37 +38,37 @@ $defaults = array(
 $framework_options = wp_parse_args( get_option('wps_framework_options'), $defaults);
 
 /* example_config */
-if( '1' == $framework_options['wps__example_config'] ){  
+if( true == $framework_options['wps__example_config'] ){  
   require_once( PARENT_DIR.'/wps_config/examlpe.php' );
 }
 
 /* mail */
-if( '1' == $framework_options['wps__extends_mail'] ){  
+if( true == $framework_options['wps__extends_mail'] ){  
   require_once( WPS_EXTENSIONS.'/wps_mail/wps_mail_init.php' );
 }
 
 /* seo */
-if( '1' == $framework_options['wps__extends_seo'] ){  
+if( true == $framework_options['wps__extends_seo'] ){  
   require_once( WPS_EXTENSIONS.'/wps_seo/wps_seo_init.php' );
 }
 
 /* cart */
-if( '1' == $framework_options['wps__extends_cart'] ){  
+if( true == $framework_options['wps__extends_cart'] ){  
   require_once( WPS_EXTENSIONS.'/wps_cart/wps_cart_init.php' );
 }
 
 /* likes */
-if( '1' == $framework_options['wps__extends_likes'] ){  
+if( true == $framework_options['wps__extends_likes'] ){  
   require_once( WPS_EXTENSIONS.'/wps_likes/wps_likes_init.php' );
 }
 
 /* tinymc  */
-if( '1' == $framework_options['wps__extends_tinymc'] ){  
+if( true == $framework_options['wps__extends_tinymc'] ){  
   require_once( WPS_EXTENSIONS.'/wps_tinymc/wps_tinymc_init.php' );
 }
 
 /* shortcode */
-if( '1' == $framework_options['wps__shortcodes'] ){  
+if( true == $framework_options['wps__shortcodes'] ){  
   require_once( WPS_EXTENSIONS.'/wps_shortcodes/shortcodes.php' );
 }
 
@@ -100,7 +100,7 @@ new WPS_OptionPage(
 
 
 ####################################################
-################  WPS Option  ######################
+################  WPS Page  ########################
 ####################################################
 new WPS_OptionPage(
   array(
@@ -117,6 +117,63 @@ new WPS_OptionPage(
       array(
         'field_type'   => 'message', 
         'message'      => 'Документация <a href="https://github.com/penguin-007/wps_framework/wiki" target="_blank">WPS Framework</a>',
+      ),
+    )
+  )
+);
+
+
+####################################################
+################  WPS Settings  ####################
+####################################################
+new WPS_OptionPage(
+  array(
+    // submenu_setting 
+    'submenu_setting' => array(
+      'submenupos' => "wps_framework",
+      // если нужно добавить в меню типа записей - 'submenupos' => "edit.php?post_type=custom_post2",
+      'page_title' => 'WPS settings',
+      'menu_title' => 'WPS settings',
+      'capability' => 'administrator',
+      'menu_slug'  => 'wps_framework_options',
+    ),
+    // submenu_setting 
+    'fields'    => array(
+      // FIELDS
+      array(
+        'field_type'   => 'message',
+        'type_message' => 'info', 
+        'message'      => 'Модули:',
+      ),
+      array(
+        'field_type'   => 'checkbox',
+        'field_name'   => 'wps__example_config',
+        'title'        => 'Example Config',
+        'description'  => 'Подключить демонстрационный файл настроек'
+      ),
+      array(
+        'field_type'   => 'checkbox',
+        'field_name'   => 'wps__extends_mail',
+        'title'        => 'Почта',
+        'description'  => '',
+      ),
+      array(
+        'field_type'   => 'checkbox',
+        'field_name'   => 'wps__extends_seo',
+        'title'        => 'SEO',
+        'description'  => 'Мета-поля для страниц архивов',
+      ),
+      array(
+        'field_type'   => 'checkbox',
+        'field_name'   => 'wps__extends_cart',
+        'title'        => 'Корзина',
+        'description'  => '',
+      ),
+      array(
+        'field_type'   => 'checkbox',
+        'field_name'   => 'wps__extends_likes',
+        'title'        => 'Лайки',
+        'description'  => '',
       ),
     )
   )
