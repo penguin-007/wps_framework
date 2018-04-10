@@ -1,6 +1,6 @@
 <?php
 /**
- * Sets up the admin UI hide block functionality.
+ * Sets up the admin UI custom html functionality.
  *
  * @package   WPS_Framework
  * @version   1.0.0
@@ -9,28 +9,20 @@
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
-
-/* Example args
-array(
-  'field_type'   => 'hide_block', 
-  'block_cont'   => 'hide_block',
-),
-*/
-
-
 // If this file is called directly, abort.
 if ( !defined( 'WPINC' ) ) {
   die;
 }
 
-class UI_Hide_block {
+class UI_HTML {
 
   // general settings
   private $settings = array();
 
   // defaults settings
   private $defaults_settings = array(
-    'block_cont' => '',             // value
+    'content'   => '',  // if need new class
+    'add_class' => '',  // value
   );
 
   function __construct( $args = array() ) {
@@ -41,9 +33,10 @@ class UI_Hide_block {
     // get setting
     $setting  = $this->settings;
     // other
-    $block_cont = $setting['block_cont'];
+    $content   = $setting['content'];
+    $add_class = $setting['add_class'];
 
-    $html = '<div hidden>'.$block_cont.'</div>';
+    $html = '<div class="wps__ui_html__holder '.$add_class.' ">'.$content.'</div>';
 
     return $html;
   }

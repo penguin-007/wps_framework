@@ -108,6 +108,21 @@ new WPS_MetaBox(
           ),
 
           array(
+            'field_type'  => 'map',
+            'field_name'  => 'map',
+            'title'       => 'UI_Map',
+            'description' => 'map desc',
+          ),
+
+          array(
+            'field_type'  => 'html',
+            'field_name'  => 'html',
+            'title'       => 'UI_HTML',
+            'description' => 'html desc',
+            'content'     => '<h1>Контент кастомного блока</h1>',
+          ),
+
+          array(
             'field_type'  => 'textarea',
             'field_name'  => 'textarea',
             'title'       => 'UI_Textarea',
@@ -252,6 +267,13 @@ new WPS_TermFields(
         'title'       => 'UI_Input',
         'description' => 'input desc',
       ),
+
+      array(
+        'field_type'  => 'map',
+        'field_name'  => 'map',
+        'title'       => 'UI_Map',
+        'description' => 'map desc',
+      ),
     )
   )
 );
@@ -278,6 +300,13 @@ new WPS_OptionPage(
         'field_name'  => 'input',
         'title'       => 'UI_Input',
         'description' => 'input desc',
+      ),
+
+      array(
+        'field_type'  => 'map',
+        'field_name'  => 'map',
+        'title'       => 'UI_Map',
+        'description' => 'map desc',
       ),
 
     )

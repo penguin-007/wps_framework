@@ -11,22 +11,6 @@
  * Allow type (type_input) : text, number, email, password, color, date
  */
 
-
-/* Example args
-array(
-  'field_type'   => 'input', 
-  'field_name'   => 'input',
-  'title'        => 'input text',
-  'description'  => '',
-  'type_input'   => 'text',
-  'def_value'    => '',
-  'placeholder'  => '',
-  'required'     => false,
-  'autocomplete' => 'off',
-  'class'        => '',
-),
-*/
-
 // If this file is called directly, abort.
 if ( !defined( 'WPINC' ) ) {
   die;

@@ -180,6 +180,18 @@ class WPS_OptionPage {
               echo $ui_button->render();
             break;
 
+            # 12) html
+            case 'html':
+              $ui_html = new UI_HTML( $value );
+              echo $ui_html->render();
+            break;
+
+            # 13) map
+            case 'map':
+              $ui_map = new UI_Map( $value );
+              echo $ui_map->render();
+            break;
+
             default:
               echo "Ой! Что-то пошло не так... Возможно, неверно указан тип поля.";
               break;

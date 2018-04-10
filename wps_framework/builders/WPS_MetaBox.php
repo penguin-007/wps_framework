@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2017, Alexander Laznevoy
  * @license   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * @todo type: radio, map
+ * @todo type: radio
  */
 
  
@@ -159,10 +159,16 @@ class WPS_MetaBox {
           echo $ui_button->render();
         break;
 
-        # 999) hide_block
-        case 'hide_block':
-          $ui_hide_block = new UI_Hide_block( $value );
-          echo $ui_hide_block->render();
+        # 12) html
+        case 'html':
+          $ui_html = new UI_HTML( $value );
+          echo $ui_html->render();
+        break;
+
+        # 13) map
+        case 'map':
+          $ui_map = new UI_Map( $value );
+          echo $ui_map->render();
         break;
 
         default:

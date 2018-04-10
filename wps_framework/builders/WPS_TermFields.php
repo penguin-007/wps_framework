@@ -135,10 +135,16 @@ class WPS_TermFields {
           echo '<p class="description">'.$description.'</p>';
         break;
 
-        # 999) hide_block
-        case 'hide_block':
-          $ui_hide_block = new UI_Hide_block( $value );
-          echo $ui_hide_block->render();
+        # 11) html
+        case 'html':
+          $ui_html = new UI_HTML( $value );
+          echo $ui_html->render();
+        break;
+
+        # 12) map
+        case 'map':
+          $ui_map = new UI_Map( $value );
+          echo $ui_map->render();
         break;
 
         default:
