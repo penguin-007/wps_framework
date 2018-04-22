@@ -60,7 +60,7 @@ class UI_Select {
     $add_class    = $setting['add_class'];
     $multiple     = $setting['multiple'] ? "multiple" : "";
 
-    $html = '<select class="'.$class.' wps_ui_select2 '.$add_class.'" '.$multiple.' name="'.$array_path.'[]" />';
+    $html = '<select class="'.$class .' '.$add_class.'" '.$multiple.' name="'.$array_path.'[]" />';
     if ( $options ){
       $html .= '<option  value="">----</option>';
       foreach ($options as $key => $name) {

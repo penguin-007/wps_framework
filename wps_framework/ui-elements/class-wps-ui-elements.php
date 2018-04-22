@@ -34,6 +34,10 @@ function enqueue_ui_elements_scripts() {
   wp_enqueue_style ( 'jquery-ui-datepicker',  trailingslashit( PARENT_URI ) . 'assets/libs/datepicker/jquery-ui.min.css', array(), WPS_VERSION, null );
   // map
   wp_enqueue_script ( 'wps_admin_ui_map', 'https://maps.googleapis.com/maps/api/js?sensor=false&key=AIzaSyAcyqgi1gWPRotqCBF96g-IdZR5wPEv224', array(), WPS_VERSION, true );
+
+    // multijs
+    wp_enqueue_script( 'multijs', trailingslashit( PARENT_URI ) . 'assets/libs/multijs/multi.min.js', array('jquery'), WPS_VERSION, true );
+    wp_enqueue_style ( 'multijs',  trailingslashit( PARENT_URI ) . 'assets/libs/multijs/multi.min.css', array(), WPS_VERSION, null );
   // Register common admin script and styles
   wp_enqueue_script( 'wps_admin_ui_script', trailingslashit( PARENT_URI ) . 'wps_framework/ui-elements/assets/wps.admin.ui.script.js', array('jquery'), WPS_VERSION, true );
   wp_enqueue_style ( 'wps_admin_ui_style',  trailingslashit( PARENT_URI ) . 'wps_framework/ui-elements/assets/wps.admin.ui.style.css', array(), WPS_VERSION, null );
