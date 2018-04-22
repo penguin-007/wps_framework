@@ -33,6 +33,7 @@ $defaults = array(
   'wps__extends_likes'  => false,
   'wps__extends_tinymc' => true,
   'wps__shortcodes'     => true,
+    'wps__users'        => false,
 );
 
 $framework_options = wp_parse_args( get_option('wps_framework_options'), $defaults);
@@ -70,6 +71,11 @@ if( true == $framework_options['wps__extends_tinymc'] ){
 /* shortcode */
 if( true == $framework_options['wps__shortcodes'] ){  
   require_once( WPS_EXTENSIONS.'/wps_shortcodes/shortcodes.php' );
+}
+
+/*users*/
+if( true == $framework_options['wps__users'] ){
+    require_once( WPS_EXTENSIONS.'/wps_users/wps_users_init.php' );
 }
 
 
@@ -175,6 +181,12 @@ new WPS_OptionPage(
         'title'        => 'Лайки',
         'description'  => '',
       ),
+        array(
+            'field_type'   => 'checkbox',
+            'field_name'   => 'wps__users',
+            'title'        => 'Регистрация',
+            'description'  => "или скачайте шаблон для своей регистрации". "<a target='__blank' href=> Сюда надо вставить ссылку на гитхаб.</a> ",
+        ),
     )
   )
 );
