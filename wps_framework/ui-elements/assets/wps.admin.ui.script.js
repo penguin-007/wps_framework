@@ -167,7 +167,10 @@
   //$('.textarea__simple_editor').summernote(); 
 
   // select2
-  $(".wps_ui_select2").select2();
+  $(".fn_select2").select2();
+
+  //multi
+  $(".fn_multijs").multi();
 
   /* wps__row_color */
   $(".wps__row_color").each(
