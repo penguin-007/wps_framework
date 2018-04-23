@@ -7,6 +7,9 @@ You can learn more about WPS Framework features from the [official documentation
 
 ## Change log ##
 
+#### v0.2.4.1 ####
+* Add multi.js
+
 #### v0.2.4.0 ####
 * Add new UI-HTML element
 * Add new UI-map element
