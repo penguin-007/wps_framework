@@ -198,7 +198,10 @@
     scaleControl: true,
     center: coordinates,
   };
-  var map = new google.maps.Map(mapElement[0], mapOptions);
+
+  if (mapElement.length) {
+    var map = new google.maps.Map(mapElement[0], mapOptions);
+  }
 
   // create marker
   var marker = new google.maps.Marker({
@@ -224,29 +227,31 @@
     $(".wps__ui_map__cord__longitude").val( marker.getPosition().lng() );
   }
 
-  $(".fn__wps__ui_map__geocoder").autocomplete({
-    //This bit uses the geocoder to fetch address values
-    source: function(request, response) {
-      geocoder.geocode( {'address': request.term }, function(results, status) {
-        response($.map(results, function(item) {
-          return {
-            label:  item.formatted_address,
-            value: item.formatted_address,
-            latitude: item.geometry.location.lat(),
-            longitude: item.geometry.location.lng()
-          };
-        }));
-      })
-    },
-    //This bit is executed upon selection of an address
-    select: function(event, ui) {
-      $(".wps__ui_map__cord__latitude").val(ui.item.latitude);
-      $(".wps__ui_map__cord__longitude").val(ui.item.longitude);
-      var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-      console.log(location);
-      map.setCenter( location );
-      marker.setPosition( location); 
-    }
-  });
+  if ( $('.wps__ui_map__input__holder').length ) {
+	  $(".fn__wps__ui_map__geocoder").autocomplete({
+	    //This bit uses the geocoder to fetch address values
+	    source: function(request, response) {
+	      geocoder.geocode( {'address': request.term }, function(results, status) {
+	        response($.map(results, function(item) {
+	          return {
+	            label:  item.formatted_address,
+	            value: item.formatted_address,
+	            latitude: item.geometry.location.lat(),
+	            longitude: item.geometry.location.lng()
+	          };
+	        }));
+	      })
+	    },
+	    //This bit is executed upon selection of an address
+	    select: function(event, ui) {
+	      $(".wps__ui_map__cord__latitude").val(ui.item.latitude);
+	      $(".wps__ui_map__cord__longitude").val(ui.item.longitude);
+	      var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
+	      // console.log(location);
+	      map.setCenter( location );
+	      marker.setPosition( location); 
+	    }
+	  });
+  }
 
 })(jQuery);
